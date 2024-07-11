@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Login.css'
 
 const Login = () => {
@@ -11,13 +12,16 @@ const Login = () => {
           <input type="text" id="usuario" aria-label="usuario" required />
           <label htmlFor="contrasena">Contraseña:</label>
           <input type="password" id="contrasena" aria-label="contraseña" required />
-          <button type="submit">Entrar</button>
+          <Link to={'/diario'}>
+              <button type="submit">Entrar</button>
+          </Link>
         </form>
-        <button id="botonRegistro" title="Registrarse para una nueva cuenta">Registrarse</button>
+        <Link to={'/registrarse'}>
+          <button id="botonRegistro" title="Registrarse para una nueva cuenta">Registrarse</button>
+        </Link>
       </div>
     </div>
   );
 };
 
 export default Login;
-

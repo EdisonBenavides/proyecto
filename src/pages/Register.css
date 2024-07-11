@@ -1,0 +1,51 @@
+body{
+    background-image: url(/public/images/fondo1.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.registerContainer{
+    display: flex;
+    width: 45vh;
+}
+
+#registerForm{
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+}
+
+#registerForm h2{
+    text-align: center;
+}
+
+#formularioRegistro {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#formularioRegistro label{
+    margin-top: 3%;
+}
+
+#formularioRegistro input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+}
+
+#buttonsForm{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+}
+
+#buttonsForm button{
+    margin-top: 5%;
+    width: 100%;
+}
