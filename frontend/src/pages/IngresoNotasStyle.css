@@ -1,26 +1,28 @@
+.principal-container-notes{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .contenedor {
   display: flex;
-  justify-content: center; /* Centra horizontalmente los contenidos */
+  justify-content: center; /* Centra horizontalmente los contenidos*/ 
   align-items: center; /* Centra verticalmente los contenidos */
-  width: 100%;
-  max-width: 2000px;
-  height: 75vh; /* Altura fija o ajustable según sea necesario */
-  background: transparent;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  width: 80%;
+  height: 80%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  box-sizing: border-box;
 }
 
 .panel-izquierdo {
-  flex: 2; /* Ocupa el espacio disponible */
-  max-width: 400px;
-  background-color: #c3c7ea;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center;    
+  width: 33%;
+  background-color: #c3c7ea;
   margin-right: 3%;
-  box-sizing: border-box;
   border-radius: 10px;
 }
 
@@ -66,24 +68,18 @@ textarea {
   font-size: 20px;
 }
 
-.guardarNota,
-.verNotas,
-.botonSalir {
+button {
   padding: 10px;
   width: 20vh;
-  height: 10vh;
   border: none;
   border-radius: 4px;
   background-color: #0054c2da;
   color: #fff;
   cursor: pointer;
   font-size: 18px;
-  margin: 5px; /* Añadido para un espaciado uniforme */
 }
 
-.guardarNota:hover,
-.verNotas:hover,
-.botonSalir:hover {
+button:hover {
   background-color: #2c7de6;
 }
 
@@ -106,69 +102,66 @@ textarea {
   display: flex;
   width: 61%;
   justify-content: center;
-  flex-wrap: wrap; /* Añadido para permitir que los botones se ajusten */
 }
 
 #noteButtons {
   display: flex;
   width: 41vh;
-  flex-wrap: wrap; /* Añadido para permitir que los botones se ajusten */
 }
 
 #noteButtons button {
   margin-right: 2%;
-  flex: 1; /* Añadido para que los botones ocupen el mismo espacio */
 }
 
 @media (max-width: 500px) {
   .contenedor {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    height: auto;
-    margin-top: 5%;
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      height: auto;
+      margin-top: 5%;
   }
 
   .panel-izquierdo {
-    width: 100%;
-    margin: 0;
-    margin-bottom: 5vh;
+      width: 100%;
+      margin: 0;
+      margin-bottom: 5vh;
   }
 
   .panel-derecho {
-    width: 100%;
-    margin: 0;
+      width: 100%;
+      margin: 0;
   }
 
   #bienvenida {
-    margin-bottom: 5vh;
+      margin-bottom: 5vh;
   }
 
   textarea {
-    height: 40vh;
-    margin-bottom: 5vh;
+      height: 40vh;
+      margin-bottom: 5vh;
   }
 
   .contenedor-botones {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
   }
 
   #noteButtons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
   }
 
   #noteButtons button {
-    width: 48%;
-    margin: 0;
+      width: 48%;
+      margin: 0;
   }
 
   .contenedor-botones button {
-    margin-bottom: 1vh;
-    width: 100%;
-    margin-top: 2%;
+      margin-bottom: 1vh;
+      width: 100%;
+      margin-top: 2%;
   }
 }

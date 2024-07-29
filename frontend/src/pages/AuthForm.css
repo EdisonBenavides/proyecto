@@ -1,0 +1,88 @@
+.principal-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 45vh;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 1%;
+}
+
+#access-form{
+    display: flex;
+    flex-direction: column;
+}
+
+#access-form label{
+    margin-top: 5%;
+    font-weight: bolder;
+}
+
+#access-form h5{
+    margin: 15px 0px 0px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.form-container button{
+    width: 100%;
+    margin-top: 5%;
+}
+/*
+.principal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    margin-bottom: 10px;
+}
+
+.form-container input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%; 
+    box-sizing: border-box; 
+    
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+*/

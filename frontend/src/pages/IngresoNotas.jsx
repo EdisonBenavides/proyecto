@@ -60,36 +60,37 @@ const IngresoNotas = () => {
     };
 
     return (
-        <div className="contenedor">
-          <div className="panel-izquierdo">
-            <div id="contenedorEmoji" className="contenedor-emoji" onClick={cambiarEmoji}>
-              {emojiActual}
+        <div className='principal-container-notes'>
+            <div className="contenedor">
+                <div className="panel-izquierdo">
+                    <div id="contenedorEmoji" className="contenedor-emoji" onClick={cambiarEmoji}>
+                        {emojiActual}
+                    </div>
+                    <div className="contenedor-frase" onClick={mostrarFrasePositiva}>
+                        <p id="frasePositiva">{frasePositiva}</p>
+                        <p id="fechaHora">{fechaHora}</p>
+                    </div>
+                </div>
+                <div className="panel-derecho">
+                    <div id="bienvenida">
+                        <p id="mensaje">¡Qué bueno verte, ! Gracias por cuidar de ti. Tu bienestar es nuestra prioridad</p>
+                    </div>
+                    <textarea id="entradaNota" placeholder="Escribe tu nota aquí..."></textarea>
+                    <div className="contenedor-botones">
+                        <div id="noteButtons">
+                            <button id="guardarNota">Guardar Nota</button>
+                            <Link to={'/historial'}>
+                                <button id="verNotas">Leer Notas</button>
+                            </Link>
+                        </div>
+                        <Link to={'/'}>
+                            <button id="botonSalir">Salir</button>
+                        </Link>
+                    </div>
+                </div>
             </div>
-            <div className="contenedor-frase" onClick={mostrarFrasePositiva}>
-              <p id="frasePositiva">{frasePositiva}</p>
-              <p id="fechaHora">{fechaHora}</p>
-            </div>
-          </div>
-          <div className="panel-derecho">
-            <div id="bienvenida">
-              <p id="mensaje">¡Qué bueno verte! Gracias por cuidar de ti. Tu bienestar es nuestra prioridad.</p>
-            </div>
-            <textarea id="entradaNota" placeholder="Escribe tu nota aquí..."></textarea>
-            <div className="contenedor-botones">
-              <div id="noteButtons">
-                <button className="guardarNota">Guardar Nota</button>
-                <Link to={'/notas'}>
-                <button className="verNotas">Leer Notas</button>
-                </Link>
-                
-              </div>
-              <Link to={'/'}>
-                <button className="botonSalir">Salir</button>
-              </Link>
-            </div>
-          </div>
         </div>
-      );
+    );
 };
 
 export default IngresoNotas;
