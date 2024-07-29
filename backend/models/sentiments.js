@@ -4,7 +4,7 @@ const tf = require('@tensorflow/tfjs');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,6 +24,7 @@ async function analyzeSentiment(text) {
     const inputTensor = tf.tensor2d([inputText.map(word => word.length)], [1, inputText.length]);
     const prediction = model.predict(inputTensor);
     const sentiment = prediction.dataSync()[0];
+    console.log(sentiment)
     return sentiment;
 }
 

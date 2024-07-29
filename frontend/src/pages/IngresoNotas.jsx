@@ -6,7 +6,7 @@ import './IngresoNotasStyle.css';
 const emojisFelices = ['😊', '😄', '😁', '😆', '😃', '😀', '🙂', '😍', '🥳', '🌞'];
 const emojisTristes = ['😢', '😞', '😔', '😟', '😫', '😩', '😭', '😖', '😞', '😓'];
 const frasesPositivas = [
-    // Frases positivas...
+    // Frases positivas predefinidas...
 ];
 
 const IngresoNotas = () => {
@@ -31,6 +31,27 @@ const IngresoNotas = () => {
     const cambiarEmoji = () => {
         const indice = (emojisFelices.indexOf(emojiActual) + 1) % emojisFelices.length;
         setEmojiActual(emojisFelices[indice]);
+    };
+
+    const generarFrasePositiva = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/generate-positive-phrase', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: nota })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setFrasePositiva(data.positiveMessage);
+            } else {
+                console.error('Error en la solicitud:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error generando frase positiva:', error);
+        }
     };
 
     const analizarSentimiento = async () => {
@@ -67,6 +88,11 @@ const IngresoNotas = () => {
         }
     };
 
+    const handleSaveNote = async () => {
+        await analizarSentimiento();
+        await generarFrasePositiva();
+    };
+
     return (
         <div className="contenedor">
             <div className="panel-izquierdo">
@@ -90,7 +116,7 @@ const IngresoNotas = () => {
                 ></textarea>
                 <div className="contenedor-botones">
                     <div id="noteButtons">
-                        <button className="guardarNota" onClick={analizarSentimiento}>Guardar Nota</button>
+                        <button className="guardarNota" onClick={handleSaveNote}>Guardar Nota</button>
                         <Link to={'/notas'}>
                             <button className="verNotas">Leer Notas</button>
                         </Link>
@@ -105,3 +131,4 @@ const IngresoNotas = () => {
 };
 
 export default IngresoNotas;
+
