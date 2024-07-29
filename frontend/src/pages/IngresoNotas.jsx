@@ -2,44 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './IngresoNotasStyle.css';
 
+// Emojis clasificados por sentimiento
 const emojisFelices = ['😊', '😄', '😁', '😆', '😃', '😀', '🙂', '😍', '🥳', '🌞'];
+const emojisTristes = ['😢', '😞', '😔', '😟', '😫', '😩', '😭', '😖', '😞', '😓'];
 const frasesPositivas = [
-    "El éxito es la suma de pequeños esfuerzos repetidos día tras día.",
-    "Tú eres la única limitación que tienes.",
-    "Convierte cada error en una lección, cada sueño en un aprendizaje y cada obstáculo en una oportunidad.",
-    "La única forma de hacer un gran trabajo es amar lo que haces.",
-    "Nunca es tarde para ser lo que podrías haber sido.",
-    "Si lo puedes soñar, lo puedes hacer.",
-    "La vida no se trata de encontrarte a ti mismo, sino de crearte a ti mismo.",
-    "Tu actitud determina tu dirección.",
-    "Cree en ti mismo y todo será posible.",
-    "No importa lo lento que vayas, siempre y cuando no te detengas.",
-    "El único lugar donde los sueños son imposibles es en tu mente.",
-    "Haz que cada día cuente.",
-    "No cuentes los días, haz que los días cuenten.",
-    "El éxito no es la clave de la felicidad. La felicidad es la clave del éxito. Si amas lo que haces, tendrás éxito.",
-    "El momento en el que quieres renunciar es el momento en el que necesitas seguir adelante.",
-    "No te detengas hasta estar orgulloso.",
-    "Si te caes siete veces, levántate ocho.",
-    "Nunca te rindas. Grandes cosas tardan tiempo.",
-    "La persistencia es la clave del éxito.",
-    "Sueña en grande, trabaja duro, mantén la boca cerrada.",
-    "Las oportunidades no ocurren, las creas tú.",
-    "Nunca te rindas ante un sueño solo porque te llevará tiempo alcanzarlo. El tiempo pasará de todos modos.",
-    "No busques culpables, busca soluciones.",
-    "El éxito no es para los que piensan que pueden, es para los que lo hacen.",
-    "No midas tu progreso usando lo que has logrado, sino por lo que superaste para llegar ahí.",
-    "No esperes a que pase la tormenta, aprende a bailar bajo la lluvia.",
-    "Todo lo que siempre has querido está al otro lado del miedo.",
-    "Nada es imposible, la palabra misma dice '¡Soy posible!'",
-    "Si buscas resultados distintos, no hagas siempre lo mismo.",
-    "La diferencia entre lo imposible y lo posible reside en la determinación de una persona."
+    // Frases positivas...
 ];
 
 const IngresoNotas = () => {
     const [emojiActual, setEmojiActual] = useState(emojisFelices[0]);
     const [frasePositiva, setFrasePositiva] = useState('');
     const [fechaHora, setFechaHora] = useState('');
+    const [nota, setNota] = useState('');
 
     useEffect(() => {
         mostrarFrasePositiva();
@@ -59,34 +33,71 @@ const IngresoNotas = () => {
         setEmojiActual(emojisFelices[indice]);
     };
 
+    const analizarSentimiento = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/analyze-sentiment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: nota })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const sentiment = data.sentiment;
+
+                // Selección de emoji según el valor de sentimiento
+                if (sentiment >= 0.8) {
+                    setEmojiActual(emojisFelices[9]); // Emoji muy feliz (🌞)
+                } else if (sentiment >= 0.6) {
+                    setEmojiActual(emojisFelices[8]); // Emoji feliz (🥳)
+                } else if (sentiment >= 0.4) {
+                    setEmojiActual(emojisFelices[3]); // Emoji neutral o ligeramente feliz (😆)
+                } else if (sentiment >= 0.2) {
+                    setEmojiActual(emojisTristes[0]); // Emoji ligeramente triste (😢)
+                } else {
+                    setEmojiActual(emojisTristes[8]); // Emoji muy triste (😓)
+                }
+            } else {
+                console.error('Error en la solicitud:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error analizando el sentimiento:', error);
+        }
+    };
+
     return (
-        <div className='principal-container-notes'>
-            <div className="contenedor">
-                <div className="panel-izquierdo">
-                    <div id="contenedorEmoji" className="contenedor-emoji" onClick={cambiarEmoji}>
-                        {emojiActual}
-                    </div>
-                    <div className="contenedor-frase" onClick={mostrarFrasePositiva}>
-                        <p id="frasePositiva">{frasePositiva}</p>
-                        <p id="fechaHora">{fechaHora}</p>
-                    </div>
+        <div className="contenedor">
+            <div className="panel-izquierdo">
+                <div id="contenedorEmoji" className="contenedor-emoji" onClick={cambiarEmoji}>
+                    {emojiActual}
                 </div>
-                <div className="panel-derecho">
-                    <div id="bienvenida">
-                        <p id="mensaje">¡Qué bueno verte, ! Gracias por cuidar de ti. Tu bienestar es nuestra prioridad</p>
-                    </div>
-                    <textarea id="entradaNota" placeholder="Escribe tu nota aquí..."></textarea>
-                    <div className="contenedor-botones">
-                        <div id="noteButtons">
-                            <button id="guardarNota">Guardar Nota</button>
-                            <Link to={'/historial'}>
-                                <button id="verNotas">Leer Notas</button>
-                            </Link>
-                        </div>
-                        <Link to={'/'}>
-                            <button id="botonSalir">Salir</button>
+                <div className="contenedor-frase" onClick={mostrarFrasePositiva}>
+                    <p id="frasePositiva">{frasePositiva}</p>
+                    <p id="fechaHora">{fechaHora}</p>
+                </div>
+            </div>
+            <div className="panel-derecho">
+                <div id="bienvenida">
+                    <p id="mensaje">¡Qué bueno verte! Gracias por cuidar de ti. Tu bienestar es nuestra prioridad.</p>
+                </div>
+                <textarea
+                    id="entradaNota"
+                    placeholder="Escribe tu nota aquí..."
+                    value={nota}
+                    onChange={(e) => setNota(e.target.value)}
+                ></textarea>
+                <div className="contenedor-botones">
+                    <div id="noteButtons">
+                        <button className="guardarNota" onClick={analizarSentimiento}>Guardar Nota</button>
+                        <Link to={'/notas'}>
+                            <button className="verNotas">Leer Notas</button>
                         </Link>
                     </div>
+                    <Link to={'/'}>
+                        <button className="botonSalir">Salir</button>
+                    </Link>
                 </div>
             </div>
         </div>
