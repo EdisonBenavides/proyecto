@@ -32,18 +32,6 @@
   padding: 20px; /* Añade padding para el espaciado interno */
 }
 
-/* Panel derecho */
-.panel-derecho {
-  flex: 1; /* Ocupa más espacio que el panel izquierdo */
-  max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  gap: 20px;
-}
-
 /* Contenedor de emojis */
 .contenedor-emoji {
   font-size: 6rem;
@@ -65,8 +53,13 @@
 }
 
 /* Estilos para fecha y hora */
+#fechaHoraContainer {
+  margin-top: 20px; /* Añade espacio arriba del contenedor de fecha y hora */
+  text-align: center;
+}
+
 #fechaHora {
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* Ajusta el tamaño de la fuente según sea necesario */
   color: #555;
 }
 
@@ -142,6 +135,8 @@ button:hover {
   }
 
   .panel-izquierdo {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     margin: 0;
     margin-bottom: 5vh;
@@ -184,4 +179,3 @@ button:hover {
     margin-top: 2%;
   }
 }
-

@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import './IngresoNotasStyle.css';
 
 // Emojis clasificados por sentimiento
-const emojisFelices = ['😊', '😄', '😁', '😆', '😃', '😀', '🙂', '😍', '🥳', '🌞'];
-const emojisTristes = ['😢', '😞', '😔', '😟', '😫', '😩', '😭', '😖', '😞', '😓'];
-const frasesPositivas = [
-    // Frases positivas predefinidas...
-];
+const emojisFelices = ['😊', '😄', '😁', '😆', '😃'];
+const emojisTristes = ['😢', '😞', '😔', '😟', '😓'];
+const emojisNeutrales = ['😐', '😑', '😶', '😏', '🤔'];
 
 const IngresoNotas = () => {
     const [emojiActual, setEmojiActual] = useState(emojisFelices[0]);
@@ -16,16 +14,42 @@ const IngresoNotas = () => {
     const [nota, setNota] = useState('');
 
     useEffect(() => {
-        mostrarFrasePositiva();
+        obtenerFrasePositiva();
+        const interval = setInterval(() => {
+            const ahora = new Date();
+            setFechaHora(ahora.toLocaleString('es-ES'));
+        }, 1000); // Actualiza cada segundo
+
+        return () => clearInterval(interval); // Limpia el intervalo al desmontar el componente
     }, []);
 
-    const mostrarFrasePositiva = () => {
-        const indiceAleatorio = Math.floor(Math.random() * frasesPositivas.length);
-        const frase = frasesPositivas[indiceAleatorio];
-        setFrasePositiva(frase);
+    const obtenerFrasePositiva = async () => {
+        try {
+            // Obtener una frase positiva al cargar el componente
+            const response = await fetch('http://localhost:3000/get-positive-phrase'); // Cambia esta URL según sea necesario
+            if (response.ok) {
+                const data = await response.json();
+                const frase = data.positiveMessage;
+                setFrasePositiva(frase);
+                leerFrasePositiva(frase);
+            } else {
+                console.error('Error al obtener frase positiva:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al obtener frase positiva:', error);
+        }
+    };
 
-        const ahora = new Date();
-        setFechaHora(ahora.toLocaleString());
+    const leerFrasePositiva = (frase) => {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(frase);
+            utterance.lang = 'es-ES';
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            speechSynthesis.speak(utterance);
+        } else {
+            console.error('La síntesis de voz no está soportada en este navegador.');
+        }
     };
 
     const cambiarEmoji = () => {
@@ -46,6 +70,7 @@ const IngresoNotas = () => {
             if (response.ok) {
                 const data = await response.json();
                 setFrasePositiva(data.positiveMessage);
+                leerFrasePositiva(data.positiveMessage);
             } else {
                 console.error('Error en la solicitud:', response.statusText);
             }
@@ -56,7 +81,7 @@ const IngresoNotas = () => {
 
     const analizarSentimiento = async () => {
         try {
-            const response = await fetch('http://localhost:3000/analyze-sentiment', {
+            const response = await fetch('http://localhost:3001/analyze-sentiment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -69,16 +94,12 @@ const IngresoNotas = () => {
                 const sentiment = data.sentiment;
 
                 // Selección de emoji según el valor de sentimiento
-                if (sentiment >= 0.8) {
-                    setEmojiActual(emojisFelices[9]); // Emoji muy feliz (🌞)
-                } else if (sentiment >= 0.6) {
-                    setEmojiActual(emojisFelices[8]); // Emoji feliz (🥳)
-                } else if (sentiment >= 0.4) {
-                    setEmojiActual(emojisFelices[3]); // Emoji neutral o ligeramente feliz (😆)
-                } else if (sentiment >= 0.2) {
-                    setEmojiActual(emojisTristes[0]); // Emoji ligeramente triste (😢)
-                } else {
-                    setEmojiActual(emojisTristes[8]); // Emoji muy triste (😓)
+                if (sentiment === 'POSITIVE') {
+                    setEmojiActual(emojisFelices[4]); // Emoji muy feliz (😃)
+                } else if (sentiment === 'NEUTRAL') {
+                    setEmojiActual(emojisNeutrales[2]); // Emoji neutral (😶)
+                } else if (sentiment === 'NEGATIVE') {
+                    setEmojiActual(emojisTristes[4]); // Emoji muy triste (😓)
                 }
             } else {
                 console.error('Error en la solicitud:', response.statusText);
@@ -98,10 +119,11 @@ const IngresoNotas = () => {
             <div className="panel-izquierdo">
                 <div id="contenedorEmoji" className="contenedor-emoji" onClick={cambiarEmoji}>
                     {emojiActual}
-                </div>
-                <div className="contenedor-frase" onClick={mostrarFrasePositiva}>
-                    <p id="frasePositiva">{frasePositiva}</p>
                     <p id="fechaHora">{fechaHora}</p>
+                </div>
+                <div className="contenedor-frase">
+                    <p id="frasePositiva">{frasePositiva}</p>
+                    
                 </div>
             </div>
             <div className="panel-derecho">
@@ -116,7 +138,7 @@ const IngresoNotas = () => {
                 ></textarea>
                 <div className="contenedor-botones">
                     <div id="noteButtons">
-                        <button className="guardarNota" onClick={handleSaveNote}>Guardar Nota</button>
+                        <button className="guardarNota" onClick={handleSaveNote}>Conversa Conmigo</button>
                         <Link to={'/notas'}>
                             <button className="verNotas">Leer Notas</button>
                         </Link>
