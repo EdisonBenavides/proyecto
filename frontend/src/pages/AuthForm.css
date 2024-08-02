@@ -1,4 +1,4 @@
-.principal-container{
+.principal-container,.principal{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,7 +8,7 @@
 .form-container {
     display: flex;
     flex-direction: column;
-    width: 45vh;
+    width: 50vh;
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -41,33 +41,6 @@
     width: 100%;
     margin-top: 5%;
 }
-/*
-.principal{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.form-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-container form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-container label {
-    margin-bottom: 10px;
-}
-
-.form-container input {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
 
 .form-container button {
     padding: 10px;
@@ -85,4 +58,3 @@
 .form-container button:hover {
     background-color: #0056b3;
 }
-*/
