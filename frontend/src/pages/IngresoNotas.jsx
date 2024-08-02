@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./IngresoNotasStyle.css";
+import { saveNote } from '../services/noteServices'
 
 // Emojis clasificados por sentimiento
 const emojisFelices = ["😊", "😄", "😁", "😆", "😃"];
@@ -12,8 +13,14 @@ const IngresoNotas = () => {
   const [frasePositiva, setFrasePositiva] = useState("");
   const [fechaHora, setFechaHora] = useState("");
   const [nota, setNota] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (storedUser) {
+      setCurrentUser(storedUser.USUARIO);
+    }
+
     obtenerFrasePositiva();
     const interval = setInterval(() => {
       const ahora = new Date();
@@ -26,7 +33,7 @@ const IngresoNotas = () => {
   const obtenerFrasePositiva = async () => {
     try {
       // Obtener una frase positiva al cargar el componente
-      const response = await fetch("http://localhost:3000/get-positive-phrase"); // Cambia esta URL según sea necesario
+      const response = await fetch("http://localhost:3000/api/get-positive-phrase"); // Cambia esta URL según sea necesario
       if (response.ok) {
         const data = await response.json();
         const frase = data.positiveMessage;
@@ -61,13 +68,13 @@ const IngresoNotas = () => {
   const generarFrasePositiva = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/generate-positive-phrase",
+        "http://localhost:3000/api/generate-positive-phrase",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ prompt: nota }),
+          body: JSON.stringify({ prompt: `Actua como si fueras un asesor motivacional y responde a esto: ${nota}` }),
         }
       );
 
@@ -85,7 +92,7 @@ const IngresoNotas = () => {
 
   const analizarSentimiento = async () => {
     try {
-      const response = await fetch("http://localhost:3001/analyze-sentiment", {
+      const response = await fetch("http://localhost:3000/api/analyze-sentiment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,9 +120,23 @@ const IngresoNotas = () => {
     }
   };
 
-  const handleSaveNote = async () => {
+  const handleDiscuss = async () => {
     await analizarSentimiento();
     await generarFrasePositiva();
+  };
+
+  const handleSaveNote = async () => {
+    try{
+      const response = await saveNote(nota, currentUser)
+      if (response.message === 'Nota guardada exitosamente') {
+        alert('Nota guardada exitosamente');
+      } else {
+        alert('Error al guardar la nota');
+      }
+    } catch (error) {
+      console.error('Error al guardar la nota:', error);
+      alert('Error al guardar la nota');
+    }
   };
 
   return (
@@ -133,7 +154,7 @@ const IngresoNotas = () => {
           </div>
           <div className="contenedor-frase">
             <p id="frasePositiva">{frasePositiva}</p>
-            <button className="conversar" onClick={handleSaveNote}>
+            <button className="conversar" onClick={handleDiscuss}>
               Conversa Conmigo
             </button>
           </div>
@@ -141,7 +162,7 @@ const IngresoNotas = () => {
         <div className="panel-derecho">
           <div id="bienvenida">
             <p id="mensaje">
-              ¡Qué bueno verte! Gracias por cuidar de ti. Tu bienestar es
+              ¡Qué bueno verte, {currentUser}! Gracias por cuidar de ti. Tu bienestar es
               nuestra prioridad.
             </p>
           </div>
@@ -157,7 +178,6 @@ const IngresoNotas = () => {
                 Guardar Nota
               </button>
             </Link>
-
             <Link to={'/historial'}>
               <button className="verNotas">Leer Notas</button>
             </Link>
