@@ -1,4 +1,4 @@
-.principal-container,.principal{
+.principal-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,7 +13,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
-    border-radius: 20px
+    border-radius: 20px;
 }
 
 .form-container h1 {
@@ -21,25 +21,20 @@
     margin-bottom: 1%;
 }
 
-#access-form{
+#access-form {
     display: flex;
     flex-direction: column;
 }
 
-#access-form label{
+#access-form label {
     margin-top: 5%;
     font-weight: bolder;
 }
 
-#access-form h5{
+#access-form h5 {
     margin: 15px 0px 0px;
     text-align: center;
     font-weight: bolder;
-}
-
-.form-container button{
-    width: 100%;
-    margin-top: 5%;
 }
 
 .form-container button {
@@ -50,11 +45,45 @@
     color: #fff;
     cursor: pointer;
     margin-top: 10px;
-    width: 100%; 
-    box-sizing: border-box; 
-    
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-container button:hover {
     background-color: #0056b3;
 }
+
+
+@media screen and (max-width: 768px) {
+    .form-container {
+        width: 70vh;
+        padding: 15px;
+    }
+
+    #access-form label {
+        margin-top: 4%;
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .form-container {
+        width: 80%; 
+        padding: 10px;
+    }
+
+    .form-container h1 {
+        font-size: 1.5rem;
+    }
+
+    #access-form label {
+        margin-top: 3%;
+        font-size: 1rem;
+    }
+
+    .form-container button {
+        padding: 8px;
+    }
+}
+
+
