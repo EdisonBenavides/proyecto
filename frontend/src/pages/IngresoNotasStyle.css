@@ -134,8 +134,8 @@ textarea {
   margin: 5px;
 }
 
-/* Botón conversar */
-.conversar {
+/* Botón conversar *//* Botón salir */
+.conversar,.botonSalir {
   width: 20vh;
   height: 10vh;
   padding: 10px;
@@ -146,27 +146,18 @@ textarea {
   cursor: pointer;
   font-size: 18px;
 }
-
-/* Botón salir */
-.botonSalir {
-  width: 20vh;
-  height: 10vh;
-  border: none;
-  border-radius: 4px;
-  background-color: #0054c2da;
-  color: #fff;
-  cursor: pointer;
-  font-size: 18px;
+.salir{
   position: absolute; /* Posición absoluta */
   bottom: 20px; /* Ajustar distancia desde el borde inferior */
-  right: 50px; /* Ajustar distancia desde el borde derecho */
+  right: 20px; /* Ajustar distancia desde el borde derecho */
 }
 
 /* Hover states */
 .contenedor-botones button:hover,
-.botonSalir:hover {
+.botonSalir:hover,.conversar:hover {
   background-color: #2c7de6;
 }
+
 
 /* Estilos responsivos */
 @media (max-width: 800px) {
@@ -189,11 +180,51 @@ textarea {
     width: 100%;
     margin-bottom: 10px;
   }
-
-  .botonSalir {
+  .conversar{
     width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .salir {
+    width: 100%; /* Ancho completo en móviles */
+    height: auto; /* Ajustar altura automáticamente */
+    padding: 10px; /* Ajustar padding */
     bottom: auto; /* Restablecer propiedades */
     right: auto; /* Restablecer propiedades */
+    position: relative; /* Añadir posición relativa para el contenedor principal */
     margin-bottom: 10px; /* Espacio inferior */
+    text-align: center; /* Centrar el texto */
   }
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 800px) {
+  .contenedor-secundario {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .panel-izquierdo,
+  .panel-derecho {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .contenedor-botones {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px; /* Reducir el margen superior en móviles */
+    
+  }
+
+  .contenedor-botones button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
 }

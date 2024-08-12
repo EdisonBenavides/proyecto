@@ -183,11 +183,15 @@ const IngresoNotas = () => {
             </Link>
           </div>
         </div>
-        
-            <Link to={"/"}>
+        <div className="salir">
+        <Link to={"/"}>
               <button className="botonSalir">Salir</button>
-            </Link>
-          
+        </Link>
+
+        </div>
+    
+
+  
       </div>
     </div>
   );
