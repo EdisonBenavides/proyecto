@@ -39,6 +39,7 @@ export default function SavedNotes() {
             </div>
           )}
         </div>
+
         <div id="contenedor-botones">
           <Link to={"/diario"}>
             <button id="botonVolver">Volver</button>

@@ -5,6 +5,9 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background: transparent;
+    max-height: 90vh; /* Limitar la altura máxima del contenedor */
+    overflow-y: auto; /* Permitir desplazamiento vertical */
+    position: relative; /* Necesario para que los elementos sticky funcionen dentro del contenedor */
 }
 
 .contenedor-notas {
@@ -44,6 +47,11 @@
     flex-direction: row;
     gap: 10px;
     margin-left: 20px;
+    position: sticky; /* Hace que el contenedor sea "pegajoso" y permanezca visible al desplazarse */
+    bottom: 0; /* Fija el contenedor de botones en la parte inferior */
+    padding: 10px;
+    z-index: 100; /* Asegura que los botones estén por encima del contenido al desplazarse */
+    
 }
 
 #botonVolver,#botonSalir,#eliminar{
@@ -55,18 +63,15 @@
     border-radius: 4px;
     cursor: pointer;
 }
-#eliminar:hover{
+
+#botonVolver:hover,#botonSalir:hover,#eliminar:hover {
     background-color: rgb(47, 176, 236);
 }
 
-#botonVolver:hover,#botonSalir:hover {
-    background-color: #0056b3;
-}
-
 /* Responsivo para tablets */
-@media (max-width: 768px) {
+@media (max-width: 495px) {
     .contenedor-notas-principal {
-        max-width: 90%;
+        max-width: 80%;
         padding: 15px;
     }
 
@@ -84,11 +89,19 @@
         width: 100%;
     }
 }
-
-/* Responsivo para teléfonos móviles */
-@media (max-width: 480px) {
+@media (max-width: 815px) {
     .contenedor-notas-principal {
-        max-width: 100%;
+        max-width: 90%;
+        padding: 15px;
+    }
+
+
+
+}
+
+@media (max-width: 501px) {
+    .contenedor-notas-principal {
+        max-width: 90%;
         padding: 10px;
     }
 
@@ -97,13 +110,15 @@
     }
 
     #contenedor-botones {
-        flex-direction: column;
-        align-items: stretch;
-        margin-left: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-left: 20px;  /* Ajusta el margen izquierdo del contenedor */
+        margin-right: 20px; /* Ajusta el margen derecho del contenedor */
     }
 
-    #botonVolver, #botonSalir, #eliminar {
-        width: 100%;
+    #botonVolver, #botonSalir {
+        width: 100%; /* Reduce un poco el ancho de los botones para dar más espacio a los márgenes */
         padding: 12px;
     }
 }
