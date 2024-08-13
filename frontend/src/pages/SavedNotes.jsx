@@ -1,12 +1,12 @@
-import React from "react"
-import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom"
-import { getUserNotes } from '../services/noteServices'
-import './SavedNotes.css'
+import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { getUserNotes } from "../services/noteServices";
+import "./SavedNotes.css";
 
 export default function SavedNotes() {
   const [notes, setNotes] = useState([]);
-  const userName = 'EdinhoQB';
+  const userName = "EdinhoQB";
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -35,12 +35,21 @@ export default function SavedNotes() {
           ) : (
             <div className="notas">
               <p>No hay notas guardadas</p>
+              <button id="eliminar">Eliminar</button>
             </div>
           )}
         </div>
-        <Link to={'/diario'}>
-          <button id="botonVolver">Volver</button>
-        </Link>
+
+        <div id="contenedor-botones">
+          <Link to={"/diario"}>
+            <button id="botonVolver">Volver</button>
+          </Link>
+          <div id="contenedor-salir">
+            <Link to={"/"}>
+              <button id="botonSalir">Salir</button>
+            </Link>
+          </div>
+        </div>
       </div>
     </>
   );
