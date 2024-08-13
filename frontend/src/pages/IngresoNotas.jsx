@@ -128,10 +128,34 @@ const IngresoNotas = () => {
   };
 
   const handleDiscuss = async () => {
-    await analizarSentimiento();
-    await generarFrasePositiva();
+    try {
+      await analizarSentimiento();
+      await generarFrasePositiva();
+  
+      // Enviar la nota a MongoDB
+      const response = await fetch('http://localhost:3000/api/save-note-mongo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: nota }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        if (data.message === 'Nota guardada exitosamente') {
+          alert('Nota guardada exitosamente');
+        } else {
+          alert('Error al guardar la nota');
+        }
+      } else {
+        console.error('Error al guardar la nota:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error al procesar la nota:', error);
+      alert('Error al procesar la nota');
+    }
   };
-
   const handleSaveNote = async () => {
     try {
       const response = await saveNote(nota, currentUser);
