@@ -53,10 +53,34 @@
     background-color: #0056b3;
 }
 
+.mostrar-contraseña {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .mostrar-contraseña input {
+    width: 100%;
+    padding-right: 30px; /* Ajusta este valor según el tamaño del ícono */
+  }
+  
+  .boton-mostrar {
+    position: absolute;
+    right: 10px; /* Espacio desde el borde derecho */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1rem; /* Tamaño del ícono más pequeño */
+    color: #888;
+  }
+  
+  .boton-mostrar:hover {
+    color: #333;
+  }
 
 @media screen and (max-width: 768px) {
     .form-container {
-        width: 70vh;
+        width: 80;
         padding: 15px;
     }
 
@@ -64,7 +88,6 @@
         margin-top: 4%;
     }
 }
-
 
 @media screen and (max-width: 480px) {
     .form-container {
@@ -86,4 +109,90 @@
     }
 }
 
+/* iPhone 12 Pro Max, iPhone 13 Pro Max */
+@media screen and (max-width: 428px) {
+    .form-container {
+        width: 85%; 
+        height: auto;
+        padding: 15px;
+    }
 
+    .form-container h1 {
+        font-size: 1.4rem;
+    }
+
+    #access-form label {
+        margin-top: 3%;
+        font-size: 1rem;
+    }
+
+    .form-container button {
+        padding: 10px;
+    }
+}
+
+/* iPhone 11, iPhone XR */
+@media screen and (max-width: 414px) {
+    .form-container {
+        width: 75%; 
+        height: auto;
+        padding: 15px;
+    }
+
+    .form-container h1 {
+        font-size: 1.3rem;
+    }
+
+    #access-form label {
+        margin-top: 3%;
+        font-size: 1rem;
+    }
+
+    .form-container button {
+        padding: 9px;
+    }
+}
+
+/* iPhone 6/7/8 Plus, iPhone SE (2020) */
+@media screen and (max-width: 375px) {
+    .form-container {
+        width: 85%; 
+        height: auto;
+        padding: 10px;
+    }
+
+    .form-container h1 {
+        font-size: 1.2rem;
+    }
+
+    #access-form label {
+        margin-top: 3%;
+        font-size: 0.9rem;
+    }
+
+    .form-container button {
+        padding: 8px;
+    }
+}
+
+/* iPhone 5/SE */
+@media screen and (max-width: 320px) {
+    .form-container {
+        width: 90%; 
+        height: auto;
+        padding: 8px;
+    }
+
+    .form-container h1 {
+        font-size: 1.1rem;
+    }
+
+    #access-form label {
+        margin-top: 2%;
+        font-size: 0.8rem;
+    }
+
+    .form-container button {
+        padding: 7px;
+    }
+}

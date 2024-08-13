@@ -11,19 +11,18 @@
 
 /* Contenedor principal */
 .contenedor-secundario {
-  position: relative; /* Añadir posición relativa para el contenedor principal */
   display: flex;
-  justify-content: space-between; /* Espacio entre los paneles */
+  justify-content: space-between;
   align-items: center;
   width: 90%;
   max-width: 1200px;
-  height: 75vh; /* Altura ajustada */
-  background: rgba(255, 255, 255, 0.342); /* Fondo semitransparente */
+  height: 75vh;
+  background: rgba(255, 255, 255, 0.342);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
   padding: 20px;
   box-sizing: border-box;
-  border-radius: 10px; /* Bordes redondeados */
-  border: 2px solid rgba(0, 0, 0, 0.2); /* Borde visible */
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 /* Panel izquierdo */
@@ -33,21 +32,21 @@
   justify-content: flex-start;
   align-items: center;
   width: 40%;
-  background-color: rgba(195, 223, 234, 0.9); /* Fondo semitransparente */
+  background-color: rgba(195, 223, 234, 0.9);
   border-radius: 10px;
   overflow-y: auto;
-  max-height: 100%; /* Ajustar para que no exceda el contenedor */
+  max-height: 100%;
   box-sizing: border-box;
   padding: 20px;
 }
 
 /* Contenedor de emojis */
 .contenedor-emoji {
-  font-size: 5rem; /* Ajustar tamaño del emoji */
+  font-size: 5rem;
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s ease;
-  margin-bottom: 10px; /* Ajustar espacio debajo del emoji */
+  margin-bottom: 10px;
 }
 
 /* Contenedor de frase positiva */
@@ -58,17 +57,17 @@
 
 /* Estilos para frase positiva */
 #frasePositiva {
-  font-size: 20px; /* Ajustar tamaño de la fuente */
+  font-size: 20px;
 }
 
 /* Estilos para fecha y hora */
 #fechaHoraContainer {
-  margin-top: 10px; /* Ajustar espacio arriba del contenedor de fecha y hora */
+  margin-top: 10px;
   text-align: center;
 }
 
 #fechaHora {
-  font-size: 1.2rem; /* Ajustar tamaño de la fuente */
+  font-size: 1.2rem;
   color: #555;
 }
 
@@ -79,7 +78,7 @@
   justify-content: space-between;
   align-items: center;
   width: 55%;
-  background-color: rgba(226, 229, 241, 0.9); /* Fondo semitransparente */
+  background-color: rgba(226, 229, 241, 0.9);
   border-radius: 10px;
   box-sizing: border-box;
   padding: 20px;
@@ -88,7 +87,7 @@
 /* Contenedor de bienvenida */
 #bienvenida {
   width: 100%;
-  background-color: rgba(195, 199, 234, 0.9); /* Fondo semitransparente */
+  background-color: rgba(195, 199, 234, 0.9);
   border-radius: 10px;
   padding: 2vh;
   text-align: center;
@@ -96,7 +95,7 @@
 
 /* Estilos para mensaje de bienvenida */
 #mensaje {
-  font-size: 20px; /* Ajustar tamaño de la fuente */
+  font-size: 20px;
   margin: 0;
   line-height: 1.5;
 }
@@ -104,40 +103,44 @@
 /* Estilos para textarea */
 textarea {
   width: 100%;
-  height: 40%;
+  height: 20vh;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 10px;
   resize: none;
-  font-size: 18px; /* Ajustar tamaño de la fuente */
-  margin-top: 20px; /* Espacio entre el mensaje de bienvenida y el textarea */
+  font-size: 16px;
+  margin-top: 20px;
 }
 
 /* Contenedor de botones */
 .contenedor-botones {
   display: flex;
-  justify-content: center; /* Centrar los botones */
+  justify-content: space-between;
   width: 100%;
-  margin-top: 20px; /* Espacio entre el textarea y los botones */
+  margin-top: 20px;
 }
 
-.guardarNotas, .verNotas {
-  flex: 1;
-  width: 20vh;
-  height: 10vh;
-  border: none;
-  border-radius: 4px;
-  background-color: #0054c2da;
-  color: #fff;
+.guardarNotas,
+.verNotas,
+.botonSalir {
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 18px;
-  margin: 5px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  flex: 1;
+  margin: 0 5px;
 }
 
-/* Botón conversar *//* Botón salir */
-.conversar,.botonSalir {
-  width: 20vh;
-  height: 10vh;
+.contenedor-salir {
+  margin-left: auto;
+}
+
+/* Botón conversar */
+.conversar {
+  width: 100%;
   padding: 10px;
   border: none;
   border-radius: 4px;
@@ -146,21 +149,18 @@ textarea {
   cursor: pointer;
   font-size: 18px;
 }
-.salir{
-  position: absolute; /* Posición absoluta */
-  bottom: 20px; /* Ajustar distancia desde el borde inferior */
-  right: 20px; /* Ajustar distancia desde el borde derecho */
-}
 
 /* Hover states */
-.contenedor-botones button:hover,
-.botonSalir:hover,.conversar:hover {
+.contenedor-botones button:hover {
   background-color: #2c7de6;
 }
+.conversar:hover{
+  background-color: #4CAF50;
 
+}
 
 /* Estilos responsivos */
-@media (max-width: 800px) {
+@media (max-width: 854px) {
   .contenedor-secundario {
     flex-direction: column;
     height: auto;
@@ -173,58 +173,60 @@ textarea {
   }
 
   .contenedor-botones {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
   }
 
   .contenedor-botones button {
     width: 100%;
     margin-bottom: 10px;
+  }
+
+  .conversar {
+    width: 100%;
+    height: 50%;
+    margin-bottom: 10px;
+  }
+  .contenedor-botones button:hover {
+    background-color: #2c7de6; /* Color de fondo al pasar el ratón */
+  }
+}
+
+
+
+/* Estilos para el contenedor de botones y botones específicos solo para pantallas menores de 496px */
+@media (max-width: 496px) {
+  .contenedor-botones {
+    display: flex;
+    flex-direction: column; /* Alinea los botones en columna */
+    width: 100%;
+    gap: 10px; /* Espacio entre los botones */
+    margin-top: 20px;
+  }
+
+  .contenedor-botones button {
+    width: 100%; /* Asegura que todos los botones ocupen todo el ancho del contenedor */
+    padding: 10px;
+    font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
+    cursor: pointer;
+    background-color: #4CAF50; /* Color de fondo para todos los botones por defecto */
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  .contenedor-salir{
+    width: 100%;
   }
   .conversar{
     width: 100%;
+    height: 50%;
     margin-bottom: 10px;
-  }
 
-  .salir {
-    width: 100%; /* Ancho completo en móviles */
-    height: auto; /* Ajustar altura automáticamente */
-    padding: 10px; /* Ajustar padding */
-    bottom: auto; /* Restablecer propiedades */
-    right: auto; /* Restablecer propiedades */
-    position: relative; /* Añadir posición relativa para el contenedor principal */
-    margin-bottom: 10px; /* Espacio inferior */
-    text-align: center; /* Centrar el texto */
+  }
+  .contenedor-botones button:hover {
+    background-color: #2c7de6; /* Color de fondo al pasar el ratón */
   }
 }
 
 
-/* Estilos responsivos */
-@media (max-width: 800px) {
-  .contenedor-secundario {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .panel-izquierdo,
-  .panel-derecho {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .contenedor-botones {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 10px; /* Reducir el margen superior en móviles */
-    
-  }
-
-  .contenedor-botones button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-}
