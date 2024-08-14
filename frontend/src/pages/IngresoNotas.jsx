@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./IngresoNotasStyle.css";
 import { saveNote } from "../services/noteServices";
+import { saveNoteToMongo } from "../services/mongoNoteServices";
+import { analyzeSentiment } from "../services/sentimentServices";
+import { generatePositivePhrase } from "../services/positivePhraseServices";
 
 // Emojis clasificados por sentimiento
 const emojisFelices = ["😊", "😄", "😁", "😆", "😃"];
@@ -21,7 +24,6 @@ const IngresoNotas = () => {
       setCurrentUser(storedUser.USUARIO);
     }
 
-    obtenerFrasePositiva();
     const interval = setInterval(() => {
       const ahora = new Date();
       setFechaHora(ahora.toLocaleString("es-ES"));
@@ -29,25 +31,6 @@ const IngresoNotas = () => {
 
     return () => clearInterval(interval); // Limpia el intervalo al desmontar el componente
   }, []);
-
-  const obtenerFrasePositiva = async () => {
-    try {
-      // Obtener una frase positiva al cargar el componente
-      const response = await fetch(
-        "http://localhost:3000/api/get-positive-phrase"
-      ); // Cambia esta URL según sea necesario
-      if (response.ok) {
-        const data = await response.json();
-        const frase = data.positiveMessage;
-        setFrasePositiva(frase);
-        leerFrasePositiva(frase);
-      } else {
-        console.error("Error al obtener frase positiva:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error al obtener frase positiva:", error);
-    }
-  };
 
   const leerFrasePositiva = (frase) => {
     if ("speechSynthesis" in window) {
@@ -67,95 +50,33 @@ const IngresoNotas = () => {
     setEmojiActual(emojisFelices[indice]);
   };
 
-  const generarFrasePositiva = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:3000/api/generate-positive-phrase",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prompt: `Actua como si fueras un asesor motivacional y responde a esto: ${nota}`,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setFrasePositiva(data.positiveMessage);
-        leerFrasePositiva(data.positiveMessage);
-      } else {
-        console.error("Error en la solicitud:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error generando frase positiva:", error);
-    }
-  };
-
-  const analizarSentimiento = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:3000/api/analyze-sentiment",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text: nota }),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        const sentiment = data.sentiment;
-
-        // Selección de emoji según el valor de sentimiento
-        if (sentiment === "POSITIVE") {
-          setEmojiActual(emojisFelices[4]); // Emoji muy feliz (😃)
-        } else if (sentiment === "NEUTRAL") {
-          setEmojiActual(emojisNeutrales[2]); // Emoji neutral (😶)
-        } else if (sentiment === "NEGATIVE") {
-          setEmojiActual(emojisTristes[4]); // Emoji muy triste (😓)
-        }
-      } else {
-        console.error("Error en la solicitud:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error analizando el sentimiento:", error);
-    }
-  };
-
   const handleDiscuss = async () => {
     try {
-      await analizarSentimiento();
-      await generarFrasePositiva();
-  
-      // Enviar la nota a MongoDB
-      const response = await fetch('http://localhost:3000/api/save-note-mongo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: nota }),
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        if (data.message === 'Nota guardada exitosamente') {
-          alert('Nota guardada exitosamente');
-        } else {
-          alert('Error al guardar la nota');
-        }
+      const sentiment = await analyzeSentiment(nota)
+      console.log(sentiment)
+      if (sentiment === "POSITIVE") {
+        setEmojiActual(emojisFelices[4]);
+      } else if (sentiment === "NEUTRAL") {
+        setEmojiActual(emojisNeutrales[2]);
+      } else if (sentiment === "NEGATIVE") {
+        setEmojiActual(emojisTristes[4]);
+      }
+
+      const positivePhrase = await generatePositivePhrase(nota)
+      setFrasePositiva(positivePhrase)
+      leerFrasePositiva(positivePhrase)
+
+      const data = await saveNoteToMongo(nota)
+      if (data.message === 'Nota guardada exitosamente') {
+        console.log('Nota guardada exitosamente en MongoDB');
       } else {
-        console.error('Error al guardar la nota:', response.statusText);
+        console.log('Error al guardar la nota en MongoDB');
       }
     } catch (error) {
       console.error('Error al procesar la nota:', error);
-      alert('Error al procesar la nota');
     }
   };
+  
   const handleSaveNote = async () => {
     try {
       const response = await saveNote(nota, currentUser);
@@ -212,16 +133,15 @@ const IngresoNotas = () => {
               <button className="verNotas">Leer Notas</button>
             </Link>
             <div className="contenedor-salir">
-            <Link to={"/"}>
-              <button className="botonSalir">Salir</button>
-            </Link>
-
+              <Link to={"/"}>
+                <button className="botonSalir">Salir</button>
+              </Link>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default IngresoNotas;

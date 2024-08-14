@@ -1,25 +1,68 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getUserNotes } from "../services/noteServices";
+import { getUserNotes, deleteNote, updateNote } from "../services/noteServices";
 import "./SavedNotes.css";
 
 export default function SavedNotes() {
   const [notes, setNotes] = useState([]);
-  const userName = "EdinhoQB";
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isEditing, setIsEditing] = useState(false)
+  const [editNoteId, setEditNoteId] = useState(null)
+  const [editNoteText, setEditNoteText] = useState('')
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (storedUser) {
+      setCurrentUser(storedUser.USUARIO);
+      console.log('Usuario actual:', storedUser.USUARIO);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchNotes = async () => {
-      try {
-        const fetchedNotes = await getUserNotes(userName);
-        setNotes(fetchedNotes);
-      } catch (error) {
-        console.error("Error fetching notes:", error);
+      if (currentUser) {
+        try {
+          const fetchedNotes = await getUserNotes(currentUser);
+          setNotes(fetchedNotes);
+        } catch (error) {
+          console.error("Error fetching notes:", error);
+        }
       }
     };
 
     fetchNotes();
-  }, [userName]);
+  }, [currentUser]);
+
+  const handleDelete = async (noteId) => {
+    console.log('Note ID to delete:', noteId)
+    try{
+      await deleteNote(noteId)
+      setNotes(notes.filter(note => note.ID !== noteId))
+    } catch (error){
+      console.error("Error deleting note: ", error)
+    }
+  }
+
+  const handleEdit = (noteId, noteText) => {
+    setIsEditing(true)
+    setEditNoteId(noteId)
+    setEditNoteText(noteText)
+  }
+
+  const handleUpdate = async() => {
+    try{
+      await updateNote(editNoteId, editNoteText)
+      setNotes(notes.map(note =>
+        note.ID === editNoteId ? { ...note, NOTA: editNoteText } : note
+      ))
+      setIsEditing(false)
+      setEditNoteId(null)
+      setEditNoteText('')
+    } catch (error) {
+      console.error('Error updating note: ', error)
+    }
+  }
 
   return (
     <>
@@ -29,13 +72,26 @@ export default function SavedNotes() {
           {notes.length > 0 ? (
             notes.map((note, index) => (
               <div key={index} className="notas">
-                <p>{note.NOTA}</p>
+                {isEditing && editNoteId === note.ID ? (
+                  <>
+                    <textarea
+                      value={editNoteText}
+                      onChange={(e) => setEditNoteText(e.target.value)}
+                    />
+                    <button onClick={handleUpdate}>Guardar</button>
+                  </>
+                ) : (
+                  <>
+                    <p>{note.NOTA}</p>
+                    <button onClick={() => handleEdit(note.ID, note.NOTA)}>Editar</button>
+                    <button id="eliminar" onClick={() => handleDelete(note.ID)}>Eliminar</button>
+                  </>
+                )}
               </div>
             ))
           ) : (
             <div className="notas">
               <p>No hay notas guardadas</p>
-              <button id="eliminar">Eliminar</button>
             </div>
           )}
         </div>

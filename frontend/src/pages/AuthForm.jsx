@@ -35,7 +35,8 @@ export default function AuthForm() {
       try {
         const response = await createUser(username, password, name, email, age);
         if (response.message === "User created successfully") {
-          navigate("/diario");
+          setIsLogin(!isLogin);
+          navigate("/");
         } else if (response.message === "User already exists") {
           alert("El usuario ya existe");
         } else {
@@ -59,11 +60,16 @@ export default function AuthForm() {
     try {
       const response = await validateUser(username, password);
       if (response.message === "Valid user credentials") {
+        const { user } = response;
         localStorage.setItem(
           "currentUser",
-          JSON.stringify({ USUARIO: username })
+          JSON.stringify({ USUARIO: username, PERFILADMINISTRADOR: user.PERFILADMINISTRADOR })
         );
-        navigate("/diario");
+        if (user.PERFILADMINISTRADOR === 1) {
+          navigate('/user-admin')
+        } else{
+          navigate("/diario");
+        }
       } else {
         alert("Usuario o contraseña incorrectos");
       }
@@ -76,6 +82,9 @@ export default function AuthForm() {
   return (
     <div className="principal-container">
       <div className="form-container">
+        {!isLogin && (
+          <button onClick={() => setIsLogin(true)} id='back-to-login'>X</button>
+        )}
         <h1>{tittle}</h1>
         <form id="access-form" onSubmit={handleSubmit}>
           <label htmlFor="user">Usuario:</label>

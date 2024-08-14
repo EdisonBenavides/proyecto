@@ -19,6 +19,7 @@
 .form-container h1 {
     text-align: center;
     margin-bottom: 1%;
+    margin-top: 5%;
 }
 
 #access-form {
@@ -57,14 +58,14 @@
     position: relative;
     display: flex;
     align-items: center;
-  }
+}
   
-  .mostrar-contraseña input {
+.mostrar-contraseña input {
     width: 100%;
     padding-right: 30px; /* Ajusta este valor según el tamaño del ícono */
-  }
+}
   
-  .boton-mostrar {
+.boton-mostrar {
     position: absolute;
     right: 10px; /* Espacio desde el borde derecho */
     top: 50%;
@@ -72,11 +73,19 @@
     cursor: pointer;
     font-size: 1rem; /* Tamaño del ícono más pequeño */
     color: #888;
-  }
+}
   
-  .boton-mostrar:hover {
+.boton-mostrar:hover {
     color: #333;
-  }
+}
+
+#back-to-login{
+    position: absolute;
+    left: 21vh;
+    top: 9vh;
+    background-color: transparent;
+    color: gray;
+}
 
 @media screen and (max-width: 768px) {
     .form-container {

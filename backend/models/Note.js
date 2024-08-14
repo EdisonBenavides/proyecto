@@ -8,7 +8,7 @@ async function getNotesByUser(userName) {
     connection = await connectToDatabase();
     if (connection) {
       const result = await connection.execute(
-        'SELECT NOTA FROM NOTAS WHERE USUARIO_ID = (SELECT ID FROM USUARIOS WHERE :userName = USUARIO)',
+        'SELECT ID, NOTA FROM NOTAS WHERE USUARIO_ID = (SELECT ID FROM USUARIOS WHERE :userName = USUARIO)',
         [userName],
         { outFormat: oracledb.OUT_FORMAT_OBJECT }
       );
@@ -56,7 +56,60 @@ async function saveNote({ nota, userName }) {
   }
 }
 
+async function deleteNoteById(noteId) {
+  let connection;
+  try {
+    connection = await connectToDatabase();
+    if (connection) {
+      const result = await connection.execute(
+        'DELETE FROM NOTAS WHERE ID = :noteId',
+        [noteId],
+        { autoCommit: true }
+      );
+      return result.rowsAffected > 0;
+    }
+  } catch (error) {
+    console.error('Error deleting note:', error);
+    throw error;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error('Error closing connection:', err);
+      }
+    }
+  }
+}
+
+async function updateNoteById(noteId, noteText) {
+  let connection;
+
+  try {
+    connection = await connectToDatabase();
+    const result = await connection.execute(
+      `UPDATE NOTAS SET NOTA = :noteText WHERE ID = :noteId`,
+      [noteText, noteId],
+      { autoCommit: true }
+    );
+    return result.rowsAffected > 0;
+  } catch (err) {
+    console.error('Error updating note', err);
+    throw err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error('Error closing connection', err);
+      }
+    }
+  }
+}
+
 module.exports = { 
   getNotesByUser,
-  saveNote
+  saveNote,
+  deleteNoteById,
+  updateNoteById
 };

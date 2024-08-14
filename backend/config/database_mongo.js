@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
-const url = 'mongodb://localhost:27017'; // o tu URL de conexión
-const dbName = 'prueba_proyect';
+const url = 'mongodb://localhost:27017/'; // o tu URL de conexión
+const dbName = 'proyecto_mongoDB';
 
 let db;
 
@@ -24,4 +24,3 @@ const getCollection = (collectionName) => {
 };
 
 module.exports = { connectToDatabase, getCollection };
-

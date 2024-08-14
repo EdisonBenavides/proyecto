@@ -14,9 +14,12 @@ exports.validateUserCredentials = async(req, res) => {
     const { username, password } = req.body
 
     try{
-        const isValid = await User.validateUser(username, password)
-        if(isValid){
-            res.json({message: 'Valid user credentials'})
+        const user = await User.validateUser(username, password)
+        if(user){
+            res.json({
+              message: 'Valid user credentials',
+              user: user
+            })
         } else{
             res.status(401).json({message: 'Invalid user credentials'})
         }
@@ -47,4 +50,3 @@ exports.createUser = async(req, res) => {
       res.status(500).json({ error: 'Error creating user' });
     }
 };
-
