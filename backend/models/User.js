@@ -37,12 +37,13 @@ async function validateUser(username, password){
 
     if (connection) {
       const result = await connection.execute(
-        `SELECT * FROM USUARIOS WHERE USUARIO = :username AND CONTRASENA = :password`,
+        `SELECT USUARIO, PERFILADMINISTRADOR FROM USUARIOS WHERE USUARIO = :username AND CONTRASENA = :password`,
         [username, password],
         { outFormat: oracledb.OUT_FORMAT_OBJECT }
       );
 
-      return result.rows.length > 0;
+      console.log(result.rows[0])
+      return result.rows[0];
     }
   } catch (err) {
     console.error('Error validating user', err);
