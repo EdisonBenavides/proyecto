@@ -1,14 +1,14 @@
 const User = require('../models/User');
 
-exports.getAllUsers = async(req, res) => {
-    try{
-        const users = await User.getAllUsers();
-        res.json(users)
-    }catch (error){
-        console.log(error)
-        res.status(500).json({error: "Error al obtener los usuarios"})
-    }
-}
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.getAllUsers();
+    res.json(users);
+  } catch (error) {
+    console.error('Error al obtener los usuarios:', error);
+    res.status(500).json({ error: 'Error al obtener los usuarios' });
+  }
+};
 
 exports.validateUserCredentials = async(req, res) => {
     const { username, password } = req.body
@@ -49,4 +49,15 @@ exports.createUser = async(req, res) => {
       console.error('Error creating user:', error);
       res.status(500).json({ error: 'Error creating user' });
     }
+};
+
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await User.deleteUser(id);
+    res.json({ message: 'Usuario eliminado con éxito' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al eliminar el usuario' });
+  }
 };

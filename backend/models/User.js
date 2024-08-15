@@ -6,13 +6,14 @@ async function getAllUsers() {
 
   try {
     connection = await connectToDatabase();
+
     if (connection) {
       const result = await connection.execute(
-        'SELECT * FROM USUARIOS',
+        'SELECT * FROM vw_users_for_admin',
         [],
         { outFormat: oracledb.OUT_FORMAT_OBJECT }
       );
-      console.log(result)
+
       return result.rows;
     }
   } catch (err) {
@@ -37,7 +38,9 @@ async function validateUser(username, password){
 
     if (connection) {
       const result = await connection.execute(
-        `SELECT USUARIO, PERFILADMINISTRADOR FROM USUARIOS WHERE USUARIO = :username AND CONTRASENA = :password`,
+        `SELECT USUARIO, PERFILADMINISTRADOR, ACTIVO FROM USUARIOS WHERE USUARIO = lower(:username)\
+        AND F_DECRYPT_PASSWORD(CONTRASENA) = :password\
+        AND ACTIVO = 1`,
         [username, password],
         { outFormat: oracledb.OUT_FORMAT_OBJECT }
       );
@@ -66,7 +69,7 @@ async function createUser(username, password, name, email, age) {
     if (connection) {
       const result = await connection.execute(
         `INSERT INTO USUARIOS (USUARIO, CONTRASENA, NOMBRECOMPLETO, EMAIL, EDADES_ID)\
-        VALUES (:username, :password, :name, :email,\
+        VALUES (lower(:username), :password, :name, :email,\
         (SELECT ID FROM RANGOSEDADES WHERE RANGOEDAD = :age))`,
         [username, password, name, email, age],
         { autoCommit: true }
@@ -87,8 +90,41 @@ async function createUser(username, password, name, email, age) {
   }
 }
 
+async function deleteUser(id) {
+  let connection;
+
+  try {
+    connection = await connectToDatabase();
+    if (connection) {
+      const result = await connection.execute(
+        'DELETE FROM USUARIOS WHERE ID = :id',
+        [id],
+        { autoCommit: true }
+      );
+
+      if (result.rowsAffected === 0) {
+        throw new Error('No se encontró el usuario con el ID proporcionado');
+      }
+
+      return { message: 'Usuario eliminado con éxito' };
+    }
+  } catch (err) {
+    console.error('Error deleting user', err);
+    throw err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error('Error closing connection', err);
+      }
+    }
+  }
+}
+
 module.exports = { 
   getAllUsers,
   validateUser,
-  createUser
+  createUser,
+  deleteUser
 };
