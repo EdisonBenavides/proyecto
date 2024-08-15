@@ -61,3 +61,15 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar el usuario' });
   }
 };
+
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { username, password, name, email, age, status, profile } = req.body;
+  try {
+    const result = await User.updateUser(id, username, password, name, email, age, status, profile);
+    res.json(result);
+  } catch (error) {
+    console.error('Error en la actualización de usuario:', error)
+    res.status(500).json({ message: 'Error al actualizar usuario' });
+  }
+};

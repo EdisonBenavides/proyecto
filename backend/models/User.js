@@ -9,7 +9,8 @@ async function getAllUsers() {
 
     if (connection) {
       const result = await connection.execute(
-        'SELECT * FROM vw_users_for_admin',
+        'SELECT ID, USUARIO, F_DECRYPT_PASSWORD(CONTRASENA) DECRYPT, NOMBRE, EMAIL, ESTADO, PERFIL, EDAD, CONTRASENA\
+         FROM vw_users_for_admin',
         [],
         { outFormat: oracledb.OUT_FORMAT_OBJECT }
       );
@@ -122,9 +123,47 @@ async function deleteUser(id) {
   }
 }
 
+async function updateUser(id, username, password, name, email, age, status, profile) {
+  let connection;
+  try {
+    connection = await connectToDatabase();
+    if (connection) {
+      const result = await connection.execute(
+        `UPDATE USUARIOS
+         SET USUARIO = LOWER(:username),
+             CONTRASENA = :password,
+             NOMBRECOMPLETO = :name,
+             EMAIL = :email,
+             EDADES_ID = (SELECT ID FROM RANGOSEDADES WHERE RANGOEDAD = :age),
+             ACTIVO = CASE WHEN :status = 'Activo' THEN 1
+                           ELSE 0
+                           END,
+             PERFILADMINISTRADOR = CASE WHEN :profile = 'Administrador' THEN 1
+                                        ELSE 0
+                                        END,
+             PERFILPUBLICO = CASE WHEN :profile = 'Público' THEN 1
+                                        ELSE 0
+                                        END
+         WHERE ID = :id`,
+        [username, password, name, email, age, status, profile, profile, id],
+        { autoCommit: true }
+      );
+    }
+    return { message: 'User updated successfully' };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  } finally {
+    if (connection) {
+      await connection.close();
+    }
+  }
+};
+
 module.exports = { 
   getAllUsers,
   validateUser,
   createUser,
-  deleteUser
+  deleteUser,
+  updateUser
 };

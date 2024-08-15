@@ -22,7 +22,21 @@ export default function NavBar() {
                         <Link className="dropdown-item" to={'/user-admin/listarUsuarios'}>Usuarios</Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item" to={'/user-admin/listarUsuarios'}>Rangos de edad</Link>
+                        <Link className="dropdown-item" >Rangos de edad</Link>
+                    </li>
+                </ul>
+
+                </li>
+                <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Crear
+                </a>
+                <ul className="dropdown-menu">
+                    <li>
+                        <Link className="dropdown-item" to={'/user-admin/listarUsuarios'}>Nuevo Usuario</Link>
+                    </li>
+                    <li>
+                        <Link className="dropdown-item" >Nuevo rango de edad</Link>
                     </li>
                 </ul>
                 </li>

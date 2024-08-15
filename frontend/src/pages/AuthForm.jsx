@@ -1,46 +1,73 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./AuthForm.css";
 import { getAgeRanges } from "../services/ageRangeServices";
-import { validateUser, createUser } from "../services/userServices";
+import { validateUser, createUser, updateUser } from "../services/userServices";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false);
-
-  const Mostrar = () => {
-    setShowPassword(!showPassword);
-  };
   const [isLogin, setIsLogin] = useState(true);
-  const tittle = isLogin ? "Diario Digital Tamagotchi" : "Crea una cuenta";
-  const buttonText = isLogin ? "Crear cuenta nueva" : "Registrarte";
-
   const [ageRanges, setAgeRanges] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [age, setAge] = useState("");
+  const [userToEdit, setUserToEdit] = useState(null)
+  const [status, setStatus] = useState([]);
+  const [profile, setProfile] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const tittle = isLogin ? "Diario Digital Tamagotchi" : userToEdit ? "Actualizar Usuario" : "Crea una cuenta";
+  const buttonText = isLogin ? "Crear cuenta nueva" : userToEdit ? "Actualizar" : "Registrarte";
 
   useEffect(() => {
     fetchAgeRanges();
-  }, []);
+
+    if (location.state && location.state.userToEdit) {
+      setIsLogin(false);
+      const user = location.state.userToEdit
+      setUserToEdit(user);
+      setUsername(user.USUARIO);
+      setPassword(user.DECRYPT);
+      setName(user.NOMBRE);
+      setEmail(user.EMAIL);
+      setAge(user.EDAD);
+      setStatus(user.ESTADO);
+      setProfile(user.PERFIL)
+    }
+  }, [location.state]);
+
+  const Mostrar = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleClick = async () => {
     if (isLogin) {
       setIsLogin(!isLogin);
     } else {
       try {
-        const response = await createUser(username, password, name, email, age);
-        if (response.message === "User created successfully") {
-          setIsLogin(!isLogin);
-          navigate("/");
-        } else if (response.message === "User already exists") {
-          alert("El usuario ya existe");
-        } else {
-          alert("Error al crear usuario");
+        if (userToEdit) {
+          const response = await updateUser(userToEdit.ID, username, password, name, email, age, status, profile);
+          console.log(response)
+          if (response.message === 'User updated successfully'){
+            navigate('/user-admin/listarUsuarios')
+          } else{
+            alert('Error al actualizar el usuario')
+          }
+        } else{
+          const response = await createUser(username, password, name, email, age);
+          if (response.message === "User created successfully") {
+            setIsLogin(!isLogin);
+            navigate("/");
+          } else if (response.message === "User already exists") {
+            alert("El usuario ya existe");
+          } else {
+            alert("Error al crear usuario");
+          }
         }
       } catch (error) {
         console.error("Error al manejar la solicitud:", error);
@@ -82,7 +109,7 @@ export default function AuthForm() {
   return (
     <div className="principal-container">
       <div className="form-container">
-        {!isLogin && (
+        {!isLogin && !userToEdit && (
           <button onClick={() => setIsLogin(true)} id='back-to-login'>X</button>
         )}
         <h1>{tittle}</h1>
@@ -100,24 +127,22 @@ export default function AuthForm() {
           <label htmlFor="password">Contraseña:</label>
           <div className="mostrar-contraseña">
             <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            aria-label="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+              type={showPassword ? "text" : "password"}
+              id="password"
+              aria-label="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <span
-            type="button"
-            className="boton-mostrar"
-            onClick={Mostrar}
-          >
-            {showPassword ?  <FaEye />:<FaEyeSlash /> }
-          </span>
-
+            <span
+              type="button"
+              className="boton-mostrar"
+              onClick={Mostrar}
+            >
+              {showPassword ?  <FaEye />:<FaEyeSlash /> }
+            </span>
           </div>
-          
 
           {isLogin ? (
             <button type="submit">Entrar</button>
@@ -160,6 +185,35 @@ export default function AuthForm() {
                   );
                 })}
               </select>
+              {userToEdit && (
+                <>
+                  <label htmlFor="status">Estado</label>
+                  <select
+                    id="status"
+                    name="status"
+                    aria-label="status"
+                    required
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+
+                  <label htmlFor="profile">Perfil</label>
+                  <select
+                    id="profile"
+                    name="profile"
+                    aria-label="profile"
+                    required
+                    value={profile}
+                    onChange={(e) => setProfile(e.target.value)}
+                  >
+                    <option value="Administrador">Administrador</option>
+                    <option value="Público">Público</option>
+                  </select>
+                </>
+              )}
             </>
           )}
         </form>

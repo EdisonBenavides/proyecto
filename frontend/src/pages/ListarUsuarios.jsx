@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Dropdown } from 'react-bootstrap';
 import { getAllUsers, deleteUser } from "../services/userServices";
-import AuthForm from './AuthForm';
+import { useNavigate } from "react-router-dom";
 
 export default function ListarUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
+  const navigate = useNavigate()
   
   useEffect(() => {
     fetchUsers();
@@ -29,6 +30,10 @@ export default function ListarUsuarios() {
         console.error("Error al eliminar usuario:", error);
       }
     }
+  }
+
+  const handleEdit = (usuario) => {
+    navigate(`/user-admin/edit-user/${usuario.ID}`, {state: { userToEdit: usuario } })
   }
 
   return (
@@ -64,7 +69,7 @@ export default function ListarUsuarios() {
                     Acciones
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleEdit(usuario.id)}>Editar</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleEdit(usuario)}>Editar</Dropdown.Item>
                     <Dropdown.Item onClick={() => handleDelete(usuario.ID)}>Eliminar</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
