@@ -66,47 +66,64 @@ export default function SavedNotes() {
 
   return (
     <>
-      <div className="contenedor-notas-principal">
-        <h1>Notas Guardadas</h1>
-        <div className="contenedor-notas">
-          {notes.length > 0 ? (
-            notes.map((note, index) => (
-              <div key={index} className="notas">
-                {isEditing && editNoteId === note.ID ? (
-                  <>
-                    <textarea
-                      value={editNoteText}
-                      onChange={(e) => setEditNoteText(e.target.value)}
-                    />
-                    <button onClick={handleUpdate}>Guardar</button>
-                  </>
-                ) : (
-                  <>
-                    <p>{note.NOTA}</p>
-                    <button onClick={() => handleEdit(note.ID, note.NOTA)}>Editar</button>
-                    <button id="eliminar" onClick={() => handleDelete(note.ID)}>Eliminar</button>
-                  </>
-                )}
-              </div>
-            ))
-          ) : (
-            <div className="notas">
-              <p>No hay notas guardadas</p>
-            </div>
-          )}
-        </div>
+    <div className="contenedor-notas-principal">
+      <h1>Notas Guardadas</h1>
+      <div className="contenedor-notas">
+        {notes.length > 0 ? (
+          notes.map((note, index) => (
+            <div key={index} className="notas">
+              {isEditing && editNoteId === note.ID ? (
+                <>
+                  <textarea
+                    value={editNoteText}
+                    onChange={(e) => setEditNoteText(e.target.value)}
+                  />
+                  <div id="guardar">
+                  <button id="guardarNota" onClick={handleUpdate}>Guardar</button>
+                  </div>
+                  
+                </>
+              ) : (
+                <>
+                
+                <p>{note.NOTA}</p>
+                  <div className="contenedor-editar">
+                    <button
+                      id="editar"
+                      onClick={() => handleEdit(note.ID, note.NOTA)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      id="eliminar"
+                      onClick={() => handleDelete(note.ID)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
 
-        <div id="contenedor-botones">
-          <Link to={"/diario"}>
-            <button id="botonVolver">Volver</button>
-          </Link>
-          <div id="contenedor-salir">
-            <Link to={"/"}>
-              <button id="botonSalir">Salir</button>
-            </Link>
+                </>
+              )}
+            </div>
+          ))
+        ) : (
+          <div className="notas">
+            <p>No hay notas guardadas</p>
           </div>
+        )}
+      </div>
+
+      <div id="contenedor-botones">
+        <Link to={"/diario"}>
+          <button id="botonVolver">Volver</button>
+        </Link>
+        <div id="contenedor-salir">
+          <Link to={"/"}>
+            <button id="botonSalir">Salir</button>
+          </Link>
         </div>
       </div>
-    </>
+    </div>
+  </>
   );
 }

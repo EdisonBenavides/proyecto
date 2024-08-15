@@ -82,6 +82,7 @@ const IngresoNotas = () => {
       const response = await saveNote(nota, currentUser);
       if (response.message === "Nota guardada exitosamente") {
         alert("Nota guardada exitosamente");
+        setNota("");
       } else {
         alert("Error al guardar la nota");
       }

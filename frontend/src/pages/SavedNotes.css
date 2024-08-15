@@ -5,7 +5,7 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background: transparent;
-    max-height: 90vh; /* Limitar la altura máxima del contenedor */
+    max-height: 92vh; /* Limitar la altura máxima del contenedor */
     overflow-y: auto; /* Permitir desplazamiento vertical */
     position: relative; /* Necesario para que los elementos sticky funcionen dentro del contenedor */
 }
@@ -21,11 +21,15 @@
 .notas{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content:space-between;
     background-color: #0056b3;
     color: #fff;
     padding: 2%;
     border-radius: 10px;
+}
+.contenedor-editar{
+    display: flex;
+    gap: 10px;
 }
 
 #notas p{
@@ -54,7 +58,8 @@
     
 }
 
-#botonVolver,#botonSalir,#eliminar{
+
+#botonVolver,#botonSalir,#eliminar,#editar,#guardarNota{
     margin-top: 5px;
     padding: 8px 16px;
     background-color: #4CAF50;
@@ -64,61 +69,82 @@
     cursor: pointer;
 }
 
-#botonVolver:hover,#botonSalir:hover,#eliminar:hover {
+#guardar{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+#botonVolver:hover,#botonSalir:hover,#eliminar:hover,#guardarNota:hover{
     background-color: rgb(47, 176, 236);
 }
 
-/* Responsivo para tablets */
-@media (max-width: 495px) {
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
     .contenedor-notas-principal {
-        max-width: 80%;
+        max-width: 100%;
+        padding: 15px;
+        margin: 5%;
+    }
+
+
+    #contenedor-botones {
+        flex-direction: row;
+        margin-left: 0;
+        gap: 5px;
+    }
+    .contenedor-editar{
+        width: 40%;
+        gap: 10px;
+    }
+
+
+
+    #botonVolver, #botonSalir, #eliminar, #editar {
+        width: 100%;
+        padding: 10px;
+    }
+    
+}
+
+@media (max-width: 576px) {
+    .contenedor-notas-principal {
         padding: 15px;
     }
 
     .notas {
-        flex-direction: column;
         padding: 3%;
     }
 
     #contenedor-botones {
-        flex-direction: column;
-        align-items: center;
+        padding: 5px;
     }
 
-    #botonVolver, #botonSalir, #eliminar {
-        width: 100%;
+    .contenedor-editar{
+        width: 50%;
+    }
+
+    #botonVolver, #botonSalir, #eliminar, #editar {
+        padding: 8px;
     }
 }
-@media (max-width: 815px) {
+
+/* Media Queries para laptops y tablets en orientación horizontal */
+@media (min-width: 769px) and (max-width: 1024px) {
     .contenedor-notas-principal {
         max-width: 90%;
-        padding: 15px;
-    }
 
-
-
-}
-
-@media (max-width: 501px) {
-    .contenedor-notas-principal {
-        max-width: 90%;
-        padding: 10px;
     }
 
     .notas {
-        padding: 4%;
+        padding: 3%;
     }
 
-    #contenedor-botones {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-left: 20px;  /* Ajusta el margen izquierdo del contenedor */
-        margin-right: 20px; /* Ajusta el margen derecho del contenedor */
+    .contenedor-editar{
+        width: 20%;
+        height: 10%;
+        gap: 10px;
     }
-
-    #botonVolver, #botonSalir {
-        width: 100%; /* Reduce un poco el ancho de los botones para dar más espacio a los márgenes */
-        padding: 12px;
-    }
+    
 }
