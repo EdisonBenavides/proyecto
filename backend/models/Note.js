@@ -8,7 +8,7 @@ async function getNotesByUser(userName) {
     connection = await connectToDatabase();
     if (connection) {
       const result = await connection.execute(
-        'SELECT ID, NOTA FROM NOTAS WHERE USUARIO_ID = (SELECT ID FROM USUARIOS WHERE :userName = USUARIO)',
+        'SELECT ID, NOTA FROM NOTAS WHERE USUARIO_ID = (SELECT ID FROM USUARIOS WHERE LOWER(:userName) = USUARIO)',
         [userName],
         { outFormat: oracledb.OUT_FORMAT_OBJECT }
       );
@@ -36,7 +36,7 @@ async function saveNote({ nota, userName }) {
 
     const result = await connection.execute(
       `INSERT INTO NOTAS (nota, usuario_id)
-       VALUES (:nota, (SELECT ID FROM USUARIOS WHERE :userName = USUARIO))`,
+       VALUES (:nota, (SELECT ID FROM USUARIOS WHERE LOWER(:userName) = USUARIO))`,
       { nota, userName },
       { autoCommit: true }
     );
