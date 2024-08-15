@@ -4,7 +4,6 @@ import AuthForm from './pages/AuthForm.jsx';
 import SavedNotes from './pages/SavedNotes.jsx';
 import ListarUsuarios from './pages/ListarUsuarios.jsx';
 import UserAdminLayout from './pages/UserAdminLayout.jsx';
-import CrearUsuario from './pages/CrearUsuario.jsx';
 
 const routes = createBrowserRouter([
   {
@@ -27,6 +26,10 @@ const routes = createBrowserRouter([
         path: 'listarUsuarios',
         element: <ListarUsuarios />
       },
+      {
+        path: 'edit-user/:id',
+        element: <AuthForm />
+      }
     ]
   }
 ]);
