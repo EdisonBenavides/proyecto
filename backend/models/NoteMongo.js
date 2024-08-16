@@ -1,4 +1,4 @@
-const { getCollection } = require('../config/database_mongo'); // Asegúrate de importar la función getCollection
+const { getCollection } = require('../config/DatabaseMongo'); // Asegúrate de importar la función getCollection
 
 // Definir la función para guardar una nota
 const saveNote = async (text) => {

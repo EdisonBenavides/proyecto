@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Dropdown } from 'react-bootstrap';
-import { getAllUsers, deleteUser } from "../services/userServices";
+import { getAllUsers, deleteUser } from "../services/UserServices";
 import { useNavigate } from "react-router-dom";
 
 export default function ListarUsuarios() {

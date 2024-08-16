@@ -24,16 +24,33 @@ export const validateUser = async(username, password) => {
     }
 }
 
-export const createUser = async(username, password, name, email, age) => {
+export const createUser = async(username, password, name, email, age, status, profile) => {
     try {
       const response = await fetch(API_URL_CREATE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password, name, email, age })
+        body: JSON.stringify({ username, password, name, email, age, status, profile })
       });
       if (!response.ok) {
+         if (response.status === 409) {
+          const errorData = await response.json();
+          if (errorData.code === "ORA-00001") {
+            return { message: errorData.message };
+          }
+        }
+        if (response.status === 400){
+          const errorData = await response.json();
+          if (errorData.code === "ORA-20001") {
+            return { message: errorData.message };
+          } else if (errorData.code === "ORA-01400") {
+            return { message: errorData.message };
+          } else if (errorData.code === "ORA-02290") {
+            return { message: errorData.message };
+          }
+        }
+
         throw new Error("Network response was not OK");
       }
       const data = await response.json();
@@ -97,8 +114,25 @@ export const updateUser = async (id, username, password, name, email, age, statu
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not OK');
-    }
+      if (response.status === 409) {
+       const errorData = await response.json();
+       if (errorData.code === "ORA-00001") {
+         return { message: errorData.message };
+       }
+     }
+     if (response.status === 400){
+       const errorData = await response.json();
+       if (errorData.code === "ORA-20001") {
+         return { message: errorData.message };
+       } else if (errorData.code === "ORA-01400") {
+         return { message: errorData.message };
+       } else if (errorData.code === "ORA-02290") {
+         return { message: errorData.message };
+       }
+     }
+
+     throw new Error("Network response was not OK");
+   }
 
     const data = await response.json();
     return data;

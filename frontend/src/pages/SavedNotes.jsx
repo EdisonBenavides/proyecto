@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getUserNotes, deleteNote, updateNote } from "../services/noteServices";
+import { getUserNotes, deleteNote, updateNote } from "../services/NoteServices";
 import "./SavedNotes.css";
 
 export default function SavedNotes() {
@@ -52,13 +52,19 @@ export default function SavedNotes() {
 
   const handleUpdate = async() => {
     try{
-      await updateNote(editNoteId, editNoteText)
-      setNotes(notes.map(note =>
-        note.ID === editNoteId ? { ...note, NOTA: editNoteText } : note
-      ))
-      setIsEditing(false)
-      setEditNoteId(null)
-      setEditNoteText('')
+      const response = await updateNote(editNoteId, editNoteText)
+      if (response.message === "Note updated successfully") {
+        setNotes(notes.map(note =>
+          note.ID === editNoteId ? { ...note, NOTA: editNoteText } : note
+        ))
+        setIsEditing(false)
+        setEditNoteId(null)
+        setEditNoteText('')
+      } else if (response.message === 'Null note') {
+        alert('Ingrese la nota que desea actualizar')
+      } else {
+        alert("Error al actualizar la nota");
+      }
     } catch (error) {
       console.error('Error updating note: ', error)
     }

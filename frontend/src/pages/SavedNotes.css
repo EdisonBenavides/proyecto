@@ -45,7 +45,6 @@
     border-radius: 8px;
 }
 
-
 #contenedor-botones {
     display: flex;
     flex-direction: row;
@@ -55,9 +54,7 @@
     bottom: 0; /* Fija el contenedor de botones en la parte inferior */
     padding: 10px;
     z-index: 100; /* Asegura que los botones estén por encima del contenido al desplazarse */
-    
 }
-
 
 #botonVolver,#botonSalir,#eliminar,#editar,#guardarNota{
     margin-top: 5px;
@@ -79,7 +76,6 @@
     background-color: rgb(47, 176, 236);
 }
 
-
 /* Media Queries para dispositivos móviles */
 @media (max-width: 768px) {
     .contenedor-notas-principal {
@@ -88,18 +84,16 @@
         margin: 5%;
     }
 
-
     #contenedor-botones {
         flex-direction: row;
         margin-left: 0;
         gap: 5px;
     }
+
     .contenedor-editar{
         width: 40%;
         gap: 10px;
     }
-
-
 
     #botonVolver, #botonSalir, #eliminar, #editar {
         width: 100%;
@@ -122,6 +116,8 @@
     }
 
     .contenedor-editar{
+        display: flex;
+        flex-direction: column;
         width: 50%;
     }
 
@@ -134,7 +130,6 @@
 @media (min-width: 769px) and (max-width: 1024px) {
     .contenedor-notas-principal {
         max-width: 90%;
-
     }
 
     .notas {
@@ -145,6 +140,5 @@
         width: 20%;
         height: 10%;
         gap: 10px;
-    }
-    
+    } 
 }

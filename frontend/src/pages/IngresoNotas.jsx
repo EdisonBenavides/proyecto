@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./IngresoNotasStyle.css";
-import { saveNote } from "../services/noteServices";
-import { saveNoteToMongo } from "../services/mongoNoteServices";
-import { analyzeSentiment } from "../services/sentimentServices";
-import { generatePositivePhrase } from "../services/positivePhraseServices";
+import { saveNote } from "../services/NoteServices";
+import { saveNoteToMongo } from "../services/MongoNoteServices";
+import { analyzeSentiment } from "../services/SentimentServices";
+import { generatePositivePhrase } from "../services/PositivePhraseServices";
 
 // Emojis clasificados por sentimiento
 const emojisFelices = ["😊", "😄", "😁", "😆", "😃"];
@@ -83,6 +83,8 @@ const IngresoNotas = () => {
       if (response.message === "Nota guardada exitosamente") {
         alert("Nota guardada exitosamente");
         setNota("");
+      } else if (response.message === 'Null note') {
+        alert('Ingrese la nota que desea guardar')
       } else {
         alert("Error al guardar la nota");
       }

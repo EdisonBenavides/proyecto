@@ -1,5 +1,5 @@
 const oracledb = require('oracledb');
-const connectToDatabase = require('../config/database');
+const connectToDatabase = require('../config/Database');
 
 async function getNotesByUser(userName) {
   let connection;

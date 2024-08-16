@@ -126,7 +126,7 @@ textarea {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -152,7 +152,7 @@ textarea {
 
 /* Hover states */
 .contenedor-botones button:hover {
-  background-color: #2c7de6;
+  background-color: #4caf50;
 }
 .conversar:hover {
   background-color: #4caf50;
@@ -186,7 +186,7 @@ textarea {
     padding: 10px;
     font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
     cursor: pointer;
-    background-color: #4caf50; /* Color de fondo para todos los botones por defecto */
+    background-color: #007bff; /* Color de fondo para todos los botones por defecto */
     color: white;
     border: none;
     border-radius: 5px;
@@ -226,7 +226,7 @@ textarea {
     margin-bottom: 10px;
   }
   .contenedor-botones button:hover {
-    background-color: #2c7de6; /* Color de fondo al pasar el ratón */
+    background-color: #4caf50; /* Color de fondo al pasar el ratón */
   }
 
 }
@@ -264,7 +264,7 @@ textarea {
     padding: 10px;
     font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
     cursor: pointer;
-    background-color: #4caf50; /* Color de fondo para todos los botones por defecto */
+    background-color: #007bff; /* Color de fondo para todos los botones por defecto */
     color: white;
     border: none;
     border-radius: 5px;
@@ -282,7 +282,7 @@ textarea {
     margin-bottom: 10px;
   }
   .contenedor-botones button:hover {
-    background-color: #2c7de6; /* Color de fondo al pasar el ratón */
+    background-color: #4caf50; /* Color de fondo al pasar el ratón */
   }
 
 }
