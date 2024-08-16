@@ -1,0 +1,144 @@
+.contenedor-notas-principal{
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background: transparent;
+    max-height: 92vh; /* Limitar la altura máxima del contenedor */
+    overflow-y: auto; /* Permitir desplazamiento vertical */
+    position: relative; /* Necesario para que los elementos sticky funcionen dentro del contenedor */
+}
+
+.contenedor-notas {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 5px;
+    padding: 8px 16px;
+}
+
+.notas{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    background-color: #0056b3;
+    color: #fff;
+    padding: 2%;
+    border-radius: 10px;
+}
+.contenedor-editar{
+    display: flex;
+    gap: 10px;
+}
+
+#notas p{
+    margin: 0;
+}
+
+.item-nota {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#contenedor-botones {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-left: 20px;
+    position: sticky; /* Hace que el contenedor sea "pegajoso" y permanezca visible al desplazarse */
+    bottom: 0; /* Fija el contenedor de botones en la parte inferior */
+    padding: 10px;
+    z-index: 100; /* Asegura que los botones estén por encima del contenido al desplazarse */
+}
+
+#botonVolver,#botonSalir,#eliminar,#editar,#guardarNota{
+    margin-top: 5px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#guardar{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+#botonVolver:hover,#botonSalir:hover,#eliminar:hover,#guardarNota:hover{
+    background-color: rgb(47, 176, 236);
+}
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .contenedor-notas-principal {
+        max-width: 100%;
+        padding: 15px;
+        margin: 5%;
+    }
+
+    #contenedor-botones {
+        flex-direction: row;
+        margin-left: 0;
+        gap: 5px;
+    }
+
+    .contenedor-editar{
+        width: 40%;
+        gap: 10px;
+    }
+
+    #botonVolver, #botonSalir, #eliminar, #editar {
+        width: 100%;
+        padding: 10px;
+    }
+    
+}
+
+@media (max-width: 576px) {
+    .contenedor-notas-principal {
+        padding: 15px;
+    }
+
+    .notas {
+        padding: 3%;
+    }
+
+    #contenedor-botones {
+        padding: 5px;
+    }
+
+    .contenedor-editar{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    #botonVolver, #botonSalir, #eliminar, #editar {
+        padding: 8px;
+    }
+}
+
+/* Media Queries para laptops y tablets en orientación horizontal */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .contenedor-notas-principal {
+        max-width: 90%;
+    }
+
+    .notas {
+        padding: 3%;
+    }
+
+    .contenedor-editar{
+        width: 20%;
+        height: 10%;
+        gap: 10px;
+    } 
+}

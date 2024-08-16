@@ -1,0 +1,291 @@
+/* Contenedor principal de la página */
+.principal-container-notes {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-size: cover;
+}
+
+/* Contenedor principal */
+.contenedor-secundario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  height: 75vh;
+  background: rgba(255, 255, 255, 0.342);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Panel izquierdo */
+.panel-izquierdo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 40%;
+  background-color: rgba(195, 223, 234, 0.9);
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+/* Contenedor de emojis */
+.contenedor-emoji {
+  font-size: 5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-bottom: 10px;
+}
+
+/* Contenedor de frase positiva */
+.contenedor-frase {
+  text-align: center;
+  padding: 2vh;
+}
+
+/* Estilos para frase positiva */
+#frasePositiva {
+  font-size: 20px;
+}
+
+/* Estilos para fecha y hora */
+#fechaHoraContainer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#fechaHora {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Panel derecho */
+.panel-derecho {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 55%;
+  background-color: rgba(226, 229, 241, 0.9);
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+/* Contenedor de bienvenida */
+#bienvenida {
+  width: 100%;
+  background-color: rgba(195, 199, 234, 0.9);
+  border-radius: 10px;
+  padding: 2vh;
+  text-align: center;
+}
+
+/* Estilos para mensaje de bienvenida */
+#mensaje {
+  font-size: 20px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Estilos para textarea */
+textarea {
+  width: 100%;
+  height: 20vh;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  resize: none;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+/* Contenedor de botones */
+.contenedor-botones {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.guardarNotas,
+.verNotas,
+.botonSalir {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  flex: 1;
+  margin: 0 5px;
+}
+
+.contenedor-salir {
+  margin-left: auto;
+}
+
+/* Botón conversar */
+.conversar {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #0054c2da;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Hover states */
+.contenedor-botones button:hover {
+  background-color: #4caf50;
+}
+.conversar:hover {
+  background-color: #4caf50;
+}
+
+
+
+
+
+
+/* Estilos para orientación horizontal */
+@media (orientation: landscape) {
+
+  .principal-container-notes {
+    height: auto;
+    width: auto;
+    padding: 8% 1%;
+
+  }
+  .contenedor-secundario {
+    height: auto;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    gap: 5%;
+  }
+
+  .contenedor-botones button {
+    width: 100%; /* Asegura que todos los botones ocupen todo el ancho del contenedor */
+    padding: 10px;
+    font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
+    cursor: pointer;
+    background-color: #007bff; /* Color de fondo para todos los botones por defecto */
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .contenedor-emoji {
+    font-size: 3rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-bottom: 10px;
+  }
+
+  .panel-izquierdo,
+  .panel-derecho {
+    width: 100%;
+    height: 100;
+    margin-bottom: 20px;
+  }
+
+  .contenedor-botones {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px; /* Espacio entre los botones */
+  }
+  .contenedor-salir {
+    width: 20%;
+  }
+  .botonSalir{
+    height: 100%;
+  }
+
+  .conversar {
+    width: 100%;
+    height: 40%;
+    margin-bottom: 10px;
+  }
+  .contenedor-botones button:hover {
+    background-color: #4caf50; /* Color de fondo al pasar el ratón */
+  }
+
+}
+
+
+/* Estilos para orientación vertical */
+@media (orientation: portrait) {
+
+  .principal-container-notes {
+    height: auto;
+    padding: 8% 1%;
+  
+  }
+  .contenedor-secundario {
+    height: auto;
+    flex-direction: column;
+    height: auto;
+    gap: 5%;
+  }
+  
+  .panel-izquierdo,
+  .panel-derecho {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .contenedor-botones {
+    display: flex;
+    flex-direction: column; /* Alinea los botones en columna */
+    width: 100%;
+    gap: 10px; /* Espacio entre los botones */
+  }
+  
+  .contenedor-botones button {
+    width: 100%; /* Asegura que todos los botones ocupen todo el ancho del contenedor */
+    padding: 10px;
+    font-size: 14px; /* Ajusta el tamaño de la fuente si es necesario */
+    cursor: pointer;
+    background-color: #007bff; /* Color de fondo para todos los botones por defecto */
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .contenedor-salir {
+    width: 100%;
+  }
+  .botonSalir{
+    height: 100%;
+  }
+  .conversar {
+    width: 100%;
+    height: 40%;
+    margin-bottom: 10px;
+  }
+  .contenedor-botones button:hover {
+    background-color: #4caf50; /* Color de fondo al pasar el ratón */
+  }
+
+}
+
+
+
