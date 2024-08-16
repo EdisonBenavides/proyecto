@@ -13,7 +13,13 @@ export const saveNote = async(nota, userName) => {
             body: JSON.stringify({ nota, userName })
         })
         if(!response.ok) {
-            throw new Error("Network response was not OK")
+          if (response.status === 400) {
+            const errorData = await response.json()
+            if (errorData.code === "ORA-01400") {
+              return { message: errorData.message };
+            }
+          }
+          throw new Error("Network response was not OK")
         }
         const data = await response.json()
         return data
@@ -73,6 +79,12 @@ export const updateNote = async (noteId, noteText) => {
         body: JSON.stringify({ noteText }),
       });
       if (!response.ok) {
+        if (response.status === 400) {
+          const errorData = await response.json()
+          if (errorData.code === "ORA-01407") {
+            return { message: errorData.message };
+          }
+        }
         throw new Error('Error updating note');
       }
     } catch (error) {

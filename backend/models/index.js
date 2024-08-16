@@ -1,6 +1,6 @@
 const Note = require("./Note");
 const User = require("./User");
-const AgeRange = require("./ageRange");
+const AgeRange = require("./AgeRange");
 
 const db = {
   User,

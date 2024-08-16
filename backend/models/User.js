@@ -1,5 +1,5 @@
 const oracledb = require('oracledb');
-const connectToDatabase = require('../config/database');
+const connectToDatabase = require('../config/Database');
 
 async function getAllUsers() {
   let connection;
@@ -63,16 +63,25 @@ async function validateUser(username, password){
   }
 }
 
-async function createUser(username, password, name, email, age) {
+async function createUser(username, password, name, email, age, status, profile) {
   let connection;
   try {
     connection = await connectToDatabase();
     if (connection) {
       const result = await connection.execute(
-        `INSERT INTO USUARIOS (USUARIO, CONTRASENA, NOMBRECOMPLETO, EMAIL, EDADES_ID)\
+        `INSERT INTO USUARIOS (USUARIO, CONTRASENA, NOMBRECOMPLETO, EMAIL, EDADES_ID, ACTIVO, PERFILADMINISTRADOR, PERFILPUBLICO)\
         VALUES (lower(:username), :password, :name, :email,\
-        (SELECT ID FROM RANGOSEDADES WHERE RANGOEDAD = :age))`,
-        [username, password, name, email, age],
+        (SELECT ID FROM RANGOSEDADES WHERE RANGOEDAD = :age),
+        (CASE WHEN :status = 'Inactivo' THEN 0
+                           ELSE 1
+                           END),
+        (CASE WHEN :profile = 'Administrador' THEN 1
+                                        ELSE 0
+                                        END),
+        CASE WHEN :profile = 'Público' THEN 1
+                                        ELSE 0
+                                        END)`,
+        [username, password, name, email, age, status, profile, profile],
         { autoCommit: true }
       );
       return result.rowsAffected > 0;

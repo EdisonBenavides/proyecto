@@ -1,4 +1,4 @@
-const { saveNote } = require('../models/Note_Mongo');
+const { saveNote } = require('../models/NoteMongo');
 
 // Controlador para manejar la solicitud de guardar una nota
 const saveNoteHandler = async (req, res) => {

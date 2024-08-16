@@ -1,13 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const analyzeSentimentRoutes = require("./routes/analizeSentimentRoutes");
-const generatePositivePhraseRoutes = require("./routes/generatePositivePhraseRoutes");
-const ageRangeRoutes = require("./routes/ageRangeRoutes");
-const noteRoutes = require('./routes/noteRoutes')
-const noteRoutesMongo = require('./routes/noteRoutesMongo')
-const userRoutes = require('./routes/userRoutes')
-const { connectToDatabase } = require('./config/database_mongo'); // Importa la función de conexión
+const analyzeSentimentRoutes = require("./routes/AnalizeSentimentRoutes");
+const generatePositivePhraseRoutes = require("./routes/GeneratePositivePhraseRoutes");
+const ageRangeRoutes = require("./routes/AgeRangeRoutes");
+const noteRoutes = require('./routes/NoteRoutes')
+const noteRoutesMongo = require('./routes/NoteRoutesMongo')
+const userRoutes = require('./routes/UserRoutes')
+const { connectToDatabase } = require('./config/DatabaseMongo'); // Importa la función de conexión
 
 const app = express();
 

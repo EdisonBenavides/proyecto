@@ -20,12 +20,14 @@ exports.saveNote = async (req, res) => {
       });
       if (success) {
         res.json({ message: 'Nota guardada exitosamente' })
-      } else{
-        res.status(500).json({ error: 'Error al guardar la nota' });
       }
     } catch (error) {
-      console.error('Error guardando nota:', error);
-      res.status(500).json({ error: 'Error al guardar la nota' });
+      if(error.code === 'ORA-01400') {
+        res.status(400).json({ message: "Null note", code: 'ORA-01400' });
+      } else {
+        console.error('Error guardando nota:', error);
+        res.status(500).json({ message: "Error al guardar la nota" });
+      }
     }
 };
 
@@ -55,7 +57,11 @@ exports.updateNote = async (req, res) => {
       res.status(404).json({ error: 'Note not found' });
     }
   } catch (error) {
-    console.error('Error updating note:', error);
-    res.status(500).json({ error: 'Error updating note' });
+    if(error.code === 'ORA-01407') {
+      res.status(400).json({ message: "Null note", code: 'ORA-01407' });
+    } else {
+      console.error('Error guardando nota:', error);
+      res.status(500).json({ message: "Error al guardar la nota" });
+    }
   }
 };

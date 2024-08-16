@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./AuthForm.css";
-import { getAgeRanges } from "../services/ageRangeServices";
-import { validateUser, createUser, updateUser } from "../services/userServices";
+import { getAgeRanges } from "../services/AgeRangeServices";
+import { validateUser, createUser, updateUser } from "../services/UserServices";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function AuthForm() {
@@ -16,13 +16,21 @@ export default function AuthForm() {
   const [email, setEmail] = useState("");
   const [age, setAge] = useState("");
   const [userToEdit, setUserToEdit] = useState(null)
-  const [status, setStatus] = useState([]);
-  const [profile, setProfile] = useState([]);
+  const [status, setStatus] = useState('');
+  const [profile, setProfile] = useState('Público');
   const navigate = useNavigate();
   const location = useLocation();
 
-  const tittle = isLogin ? "Diario Digital Tamagotchi" : userToEdit ? "Actualizar Usuario" : "Crea una cuenta";
-  const buttonText = isLogin ? "Crear cuenta nueva" : userToEdit ? "Actualizar" : "Registrarte";
+  const isAdminContext = location.pathname.includes('/user-admin/create-user') || location.pathname.includes('/user-admin/edit-user')
+
+  const tittle = isLogin ? "Diario Digital Tamagotchi" : userToEdit ? "Actualizar Usuario" : isAdminContext ? "Nuevo Usuario (Administración)" : "Crea una cuenta";
+  const buttonText = isLogin ? "Crear cuenta nueva" : userToEdit ? "Actualizar" : isAdminContext ? "Crear Usuario" : "Registrarte";
+
+  useEffect(() => {
+    if (isAdminContext) {
+      setIsLogin(false);
+    }
+  }, [isAdminContext]);
 
   useEffect(() => {
     fetchAgeRanges();
@@ -55,16 +63,44 @@ export default function AuthForm() {
           console.log(response)
           if (response.message === 'User updated successfully'){
             navigate('/user-admin/listarUsuarios')
+          } else if (response.message === "User already exists") {
+            alert("El usuario ya existe");
+          } else if (response.message === 'Incorrect password') {
+            alert("La contraseña ingresada no cumple los requisitos:\n" +
+              "- Mínimo 4 caracteres\n" +
+              "- Al menos una mayuscula y una minuscula\n" +
+              "- Al menos un número\n" +
+              "- Al menos un caracter especial (@, $, !, %, *, ?, &, #, _)"
+            );
+          } else if (response.message === 'Incomplete data') {
+            alert("Complete todos los campos");
+          } else if (response.message === 'Incorrect email') {
+            alert("El correo ingresado no es válido");
           } else{
             alert('Error al actualizar el usuario')
           }
         } else{
-          const response = await createUser(username, password, name, email, age);
+          const response = await createUser(username, password, name, email, age, status, profile);
           if (response.message === "User created successfully") {
-            setIsLogin(!isLogin);
-            navigate("/");
+            if (isAdminContext) {
+              navigate('/user-admin/listarUsuarios')
+            } else{
+              setIsLogin(!isLogin);
+              navigate("/");
+            }
           } else if (response.message === "User already exists") {
             alert("El usuario ya existe");
+          } else if (response.message === 'Incorrect password') {
+            alert("La contraseña ingresada no cumple los requisitos:\n" +
+              "- Mínimo 4 caracteres\n" +
+              "- Al menos una mayuscula y una minuscula\n" +
+              "- Al menos un número\n" +
+              "- Al menos un caracter especial (@, $, !, %, *, ?, &, #, _)"
+            );
+          } else if (response.message === 'Incomplete data') {
+            alert("Complete todos los campos");
+          } else if (response.message === 'Incorrect email') {
+            alert("El correo ingresado no es válido");
           } else {
             alert("Error al crear usuario");
           }
@@ -109,7 +145,7 @@ export default function AuthForm() {
   return (
     <div className="principal-container">
       <div className="form-container">
-        {!isLogin && !userToEdit && (
+        {!isLogin && !userToEdit && !isAdminContext && (
           <button onClick={() => setIsLogin(true)} id='back-to-login'>X</button>
         )}
         <h1>{tittle}</h1>
@@ -185,7 +221,7 @@ export default function AuthForm() {
                   );
                 })}
               </select>
-              {userToEdit && (
+              {(isAdminContext || userToEdit) && (
                 <>
                   <label htmlFor="status">Estado</label>
                   <select

@@ -4,6 +4,8 @@ import AuthForm from './pages/AuthForm.jsx';
 import SavedNotes from './pages/SavedNotes.jsx';
 import ListarUsuarios from './pages/ListarUsuarios.jsx';
 import UserAdminLayout from './pages/UserAdminLayout.jsx';
+import ListAges from './pages/ListAges.jsx';
+import AdminAgeRanges from './pages/AdminAgeRanges.jsx';
 
 const routes = createBrowserRouter([
   {
@@ -29,6 +31,22 @@ const routes = createBrowserRouter([
       {
         path: 'edit-user/:id',
         element: <AuthForm />
+      },
+      {
+        path: 'create-user',
+        element: <AuthForm />
+      },
+      {
+        path: 'list-ages',
+        element: <ListAges />
+      },
+      {
+        path: 'edit-age/:id',
+        element: <AdminAgeRanges />
+      },
+      {
+        path: 'create-age',
+        element: <AdminAgeRanges />
       }
     ]
   }
